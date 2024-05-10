@@ -8,9 +8,12 @@ ChessTactics::ChessTactics(QString role, QWidget *parent) :
     ui->setupUi(this);
     if (role == "guest")
     {
-        ui->editGame->hide();
-        ui->editUser->hide();
+        ui->EditMenu->close();
     }
+    ui->FiltresMenu->hide();
+    ui->startDate->setDate(QDate(800, 8, 8));
+    ui->endDate->setDate(QDate::currentDate());
+    ui->FiltresMenu->setFocus();
 }
 
 ChessTactics::~ChessTactics()
@@ -20,7 +23,7 @@ ChessTactics::~ChessTactics()
 
 void ChessTactics::UpdateTable()
 {
-
+    qDebug("here");
 }
 
 void ChessTactics::on_moveBack_clicked()
@@ -81,6 +84,15 @@ void ChessTactics::on_result_currentTextChanged(const QString &arg1)
 
 void ChessTactics::on_pushFilters_clicked()
 {
-
+    if (ui->FiltresMenu->isHidden())
+    {
+        ui->FiltresMenu->show();
+        ui->pushFilters->setText("Filters/\\");
+    }
+    else
+    {
+        ui->FiltresMenu->hide();
+        ui->pushFilters->setText("Filters\\/");
+    }
 }
 

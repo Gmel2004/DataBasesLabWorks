@@ -26,8 +26,6 @@ private slots:
 
     void on_remove_clicked();
 
-    void on_moveBack_clicked();
-
 private:
     Ui::GameEditor *ui;
 };

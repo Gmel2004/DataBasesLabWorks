@@ -42,10 +42,3 @@ void GameEditor::on_remove_clicked()
 {
 
 }
-
-
-void GameEditor::on_moveBack_clicked()
-{
-
-}
-

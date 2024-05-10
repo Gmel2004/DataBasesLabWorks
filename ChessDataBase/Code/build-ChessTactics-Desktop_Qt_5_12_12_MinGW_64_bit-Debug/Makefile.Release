@@ -228,6 +228,14 @@ release/moc_chesstactics.cpp: ../ChessTactics/chesstactics.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qfiledevice.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qvector2d.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qtouchdevice.h \
+		../ChessTactics/entrance.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/QMainWindow \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qmainwindow.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qtabwidget.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qicon.h \
+		../ChessTactics/chesstactics.h \
+		../ChessTactics/usereditor.h \
+		../ChessTactics/gameeditor.h \
 		release/moc_predefs.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/bin/moc.exe
 	C:\Qt\Qt5.12.12\5.12.12\mingw73_64\bin\moc.exe $(DEFINES) --include C:/Users/Gleb/Desktop/Programming/Study/DataBasesLabWorks/ChessDataBase/Code/build-ChessTactics-Desktop_Qt_5_12_12_MinGW_64_bit-Debug/release/moc_predefs.h -IC:/Qt/Qt5.12.12/5.12.12/mingw73_64/mkspecs/win32-g++ -IC:/Users/Gleb/Desktop/Programming/Study/DataBasesLabWorks/ChessDataBase/Code/ChessTactics -IC:/Qt/Qt5.12.12/5.12.12/mingw73_64/include -IC:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets -IC:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui -IC:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtANGLE -IC:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore -I. -IC:/Qt/Qt5.12.12/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++ -IC:/Qt/Qt5.12.12/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Qt5.12.12/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/backward -IC:/Qt/Qt5.12.12/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include -IC:/Qt/Qt5.12.12/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include-fixed -IC:/Qt/Qt5.12.12/Tools/mingw730_64/x86_64-w64-mingw32/include ..\ChessTactics\chesstactics.h -o release\moc_chesstactics.cpp
@@ -339,6 +347,12 @@ release/moc_entrance.cpp: ../ChessTactics/entrance.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qtouchdevice.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qtabwidget.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qicon.h \
+		../ChessTactics/chesstactics.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/QDialog \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qdialog.h \
+		../ChessTactics/entrance.h \
+		../ChessTactics/usereditor.h \
+		../ChessTactics/gameeditor.h \
 		release/moc_predefs.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/bin/moc.exe
 	C:\Qt\Qt5.12.12\5.12.12\mingw73_64\bin\moc.exe $(DEFINES) --include C:/Users/Gleb/Desktop/Programming/Study/DataBasesLabWorks/ChessDataBase/Code/build-ChessTactics-Desktop_Qt_5_12_12_MinGW_64_bit-Debug/release/moc_predefs.h -IC:/Qt/Qt5.12.12/5.12.12/mingw73_64/mkspecs/win32-g++ -IC:/Users/Gleb/Desktop/Programming/Study/DataBasesLabWorks/ChessDataBase/Code/ChessTactics -IC:/Qt/Qt5.12.12/5.12.12/mingw73_64/include -IC:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets -IC:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui -IC:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtANGLE -IC:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore -I. -IC:/Qt/Qt5.12.12/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++ -IC:/Qt/Qt5.12.12/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Qt5.12.12/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/backward -IC:/Qt/Qt5.12.12/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include -IC:/Qt/Qt5.12.12/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include-fixed -IC:/Qt/Qt5.12.12/Tools/mingw730_64/x86_64-w64-mingw32/include ..\ChessTactics\entrance.h -o release\moc_entrance.cpp
@@ -701,6 +715,13 @@ release/chesstactics.o: ../ChessTactics/chesstactics.cpp ../ChessTactics/chessta
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qfiledevice.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qvector2d.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qtouchdevice.h \
+		../ChessTactics/entrance.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/QMainWindow \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qmainwindow.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qtabwidget.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qicon.h \
+		../ChessTactics/usereditor.h \
+		../ChessTactics/gameeditor.h \
 		ui_chesstactics.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\chesstactics.o ..\ChessTactics\chesstactics.cpp
 
@@ -919,6 +940,11 @@ release/main.o: ../ChessTactics/main.cpp ../ChessTactics/entrance.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qtouchdevice.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qtabwidget.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qicon.h \
+		../ChessTactics/chesstactics.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/QDialog \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qdialog.h \
+		../ChessTactics/usereditor.h \
+		../ChessTactics/gameeditor.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/QApplication \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qapplication.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtCore/qcoreapplication.h \
@@ -1035,6 +1061,11 @@ release/entrance.o: ../ChessTactics/entrance.cpp ../ChessTactics/entrance.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qtouchdevice.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qtabwidget.h \
 		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtGui/qicon.h \
+		../ChessTactics/chesstactics.h \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/QDialog \
+		C:/Qt/Qt5.12.12/5.12.12/mingw73_64/include/QtWidgets/qdialog.h \
+		../ChessTactics/usereditor.h \
+		../ChessTactics/gameeditor.h \
 		ui_entrance.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\entrance.o ..\ChessTactics\entrance.cpp
 

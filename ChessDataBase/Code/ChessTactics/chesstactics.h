@@ -2,9 +2,9 @@
 #define CHESSTACTICS_H
 
 #include <QDialog>
-#include <entrance.h>
-#include <usereditor.h>
-#include <gameeditor.h>
+#include "entrance.h"
+#include "usereditor.h"
+#include "gameeditor.h"
 
 namespace Ui {
 class ChessTactics;

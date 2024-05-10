@@ -30,5 +30,9 @@ void Entrance::on_logAsAdmin_clicked()
         chessTactics->show();
         close();
     }
+    else
+    {
+        QMessageBox::critical(this, "Error", "Wrong password!");
+    }
 }
 

@@ -2,6 +2,7 @@
 #define USEREDITOR_H
 
 #include <QDialog>
+#include "chesstactics.h"
 
 namespace Ui {
 class UserEditor;
@@ -26,10 +27,9 @@ private slots:
 
     void on_platform_currentIndexChanged(const QString &arg1);
 
-    void on_moveBack_clicked();
-
 private:
     Ui::UserEditor *ui;
+    ChessTactics* tactics = nullptr;
 };
 
 #endif // USEREDITOR_H

@@ -2,7 +2,8 @@
 #define ENTRANCE_H
 
 #include <QMainWindow>
-#include <chesstactics.h>
+#include "chesstactics.h"
+#include <qmessagebox.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Entrance; }

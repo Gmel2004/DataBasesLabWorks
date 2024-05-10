@@ -27,7 +27,7 @@ class Ui_GameEditor
 {
 public:
     QGridLayout *gridLayout_2;
-    QPushButton *remove;
+    QPushButton *change;
     QGridLayout *gridLayout;
     QLabel *label_4;
     QLabel *label_6;
@@ -55,25 +55,24 @@ public:
     QComboBox *blackNickName;
     QComboBox *whiteNickName;
     QComboBox *result;
-    QPushButton *change;
+    QPushButton *remove;
     QPushButton *add;
     QLabel *label_12;
-    QPushButton *moveBack;
 
     void setupUi(QDialog *GameEditor)
     {
         if (GameEditor->objectName().isEmpty())
             GameEditor->setObjectName(QString::fromUtf8("GameEditor"));
-        GameEditor->resize(673, 588);
+        GameEditor->resize(673, 632);
         gridLayout_2 = new QGridLayout(GameEditor);
         gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
-        remove = new QPushButton(GameEditor);
-        remove->setObjectName(QString::fromUtf8("remove"));
+        change = new QPushButton(GameEditor);
+        change->setObjectName(QString::fromUtf8("change"));
         QFont font;
         font.setPointSize(14);
-        remove->setFont(font);
+        change->setFont(font);
 
-        gridLayout_2->addWidget(remove, 3, 2, 1, 1);
+        gridLayout_2->addWidget(change, 2, 0, 1, 1);
 
         gridLayout = new QGridLayout();
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
@@ -237,31 +236,25 @@ public:
         gridLayout->addWidget(result, 11, 1, 1, 3);
 
 
-        gridLayout_2->addLayout(gridLayout, 2, 0, 1, 3);
+        gridLayout_2->addLayout(gridLayout, 1, 0, 1, 3);
 
-        change = new QPushButton(GameEditor);
-        change->setObjectName(QString::fromUtf8("change"));
-        change->setFont(font);
+        remove = new QPushButton(GameEditor);
+        remove->setObjectName(QString::fromUtf8("remove"));
+        remove->setFont(font);
 
-        gridLayout_2->addWidget(change, 3, 0, 1, 1);
+        gridLayout_2->addWidget(remove, 2, 2, 1, 1);
 
         add = new QPushButton(GameEditor);
         add->setObjectName(QString::fromUtf8("add"));
         add->setFont(font);
 
-        gridLayout_2->addWidget(add, 3, 1, 1, 1);
+        gridLayout_2->addWidget(add, 2, 1, 1, 1);
 
         label_12 = new QLabel(GameEditor);
         label_12->setObjectName(QString::fromUtf8("label_12"));
         label_12->setFont(font);
 
-        gridLayout_2->addWidget(label_12, 1, 0, 1, 3);
-
-        moveBack = new QPushButton(GameEditor);
-        moveBack->setObjectName(QString::fromUtf8("moveBack"));
-        moveBack->setFont(font);
-
-        gridLayout_2->addWidget(moveBack, 0, 0, 1, 1);
+        gridLayout_2->addWidget(label_12, 0, 0, 1, 3);
 
 
         retranslateUi(GameEditor);
@@ -272,7 +265,7 @@ public:
     void retranslateUi(QDialog *GameEditor)
     {
         GameEditor->setWindowTitle(QApplication::translate("GameEditor", "Dialog", nullptr));
-        remove->setText(QApplication::translate("GameEditor", "Remove", nullptr));
+        change->setText(QApplication::translate("GameEditor", "Change", nullptr));
         label_4->setText(QApplication::translate("GameEditor", "Second to add", nullptr));
         label_6->setText(QApplication::translate("GameEditor", "Sequence Length", nullptr));
         label_13->setText(QApplication::translate("GameEditor", "Tactics", nullptr));
@@ -290,10 +283,9 @@ public:
         result->setItemText(1, QApplication::translate("GameEditor", "black", nullptr));
         result->setItemText(2, QApplication::translate("GameEditor", "draw", nullptr));
 
-        change->setText(QApplication::translate("GameEditor", "Change", nullptr));
+        remove->setText(QApplication::translate("GameEditor", "Remove", nullptr));
         add->setText(QApplication::translate("GameEditor", "Add", nullptr));
         label_12->setText(QApplication::translate("GameEditor", "<html><head/><body><p align=\"center\"><span style=\" font-weight:600;\">Sequance Tactics Editor</span></p></body></html>", nullptr));
-        moveBack->setText(QApplication::translate("GameEditor", "Back", nullptr));
     } // retranslateUi
 
 };

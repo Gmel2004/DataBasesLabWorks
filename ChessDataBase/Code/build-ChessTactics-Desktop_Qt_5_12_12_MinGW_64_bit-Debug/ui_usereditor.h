@@ -25,10 +25,10 @@ class Ui_UserEditor
 {
 public:
     QGridLayout *gridLayout_2;
-    QPushButton *change;
     QPushButton *remove;
-    QPushButton *add;
     QLabel *label_8;
+    QPushButton *add;
+    QPushButton *change;
     QGridLayout *gridLayout;
     QLineEdit *nickName;
     QLabel *label_5;
@@ -45,40 +45,39 @@ public:
     QComboBox *rank;
     QComboBox *country;
     QSpinBox *rating;
-    QPushButton *moveBack;
 
     void setupUi(QDialog *UserEditor)
     {
         if (UserEditor->objectName().isEmpty())
             UserEditor->setObjectName(QString::fromUtf8("UserEditor"));
-        UserEditor->resize(502, 382);
+        UserEditor->resize(502, 427);
         gridLayout_2 = new QGridLayout(UserEditor);
         gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
-        change = new QPushButton(UserEditor);
-        change->setObjectName(QString::fromUtf8("change"));
-        QFont font;
-        font.setPointSize(14);
-        change->setFont(font);
-
-        gridLayout_2->addWidget(change, 3, 0, 1, 1);
-
         remove = new QPushButton(UserEditor);
         remove->setObjectName(QString::fromUtf8("remove"));
+        QFont font;
+        font.setPointSize(14);
         remove->setFont(font);
 
-        gridLayout_2->addWidget(remove, 3, 2, 1, 1);
-
-        add = new QPushButton(UserEditor);
-        add->setObjectName(QString::fromUtf8("add"));
-        add->setFont(font);
-
-        gridLayout_2->addWidget(add, 3, 1, 1, 1);
+        gridLayout_2->addWidget(remove, 2, 2, 1, 1);
 
         label_8 = new QLabel(UserEditor);
         label_8->setObjectName(QString::fromUtf8("label_8"));
         label_8->setFont(font);
 
-        gridLayout_2->addWidget(label_8, 1, 0, 1, 3);
+        gridLayout_2->addWidget(label_8, 0, 0, 1, 3);
+
+        add = new QPushButton(UserEditor);
+        add->setObjectName(QString::fromUtf8("add"));
+        add->setFont(font);
+
+        gridLayout_2->addWidget(add, 2, 1, 1, 1);
+
+        change = new QPushButton(UserEditor);
+        change->setObjectName(QString::fromUtf8("change"));
+        change->setFont(font);
+
+        gridLayout_2->addWidget(change, 2, 0, 1, 1);
 
         gridLayout = new QGridLayout();
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
@@ -182,13 +181,7 @@ public:
         gridLayout->addWidget(rating, 6, 1, 1, 2);
 
 
-        gridLayout_2->addLayout(gridLayout, 2, 0, 1, 3);
-
-        moveBack = new QPushButton(UserEditor);
-        moveBack->setObjectName(QString::fromUtf8("moveBack"));
-        moveBack->setFont(font);
-
-        gridLayout_2->addWidget(moveBack, 0, 0, 1, 1);
+        gridLayout_2->addLayout(gridLayout, 1, 0, 1, 3);
 
 
         retranslateUi(UserEditor);
@@ -199,10 +192,10 @@ public:
     void retranslateUi(QDialog *UserEditor)
     {
         UserEditor->setWindowTitle(QApplication::translate("UserEditor", "Dialog", nullptr));
-        change->setText(QApplication::translate("UserEditor", "Change", nullptr));
         remove->setText(QApplication::translate("UserEditor", "Remove", nullptr));
-        add->setText(QApplication::translate("UserEditor", "Add", nullptr));
         label_8->setText(QApplication::translate("UserEditor", "<html><head/><body><p align=\"center\"><span style=\" font-weight:600;\">Edit User</span></p></body></html>", nullptr));
+        add->setText(QApplication::translate("UserEditor", "Add", nullptr));
+        change->setText(QApplication::translate("UserEditor", "Change", nullptr));
         nickName->setText(QApplication::translate("UserEditor", "NEW USER...", nullptr));
         label_5->setText(QApplication::translate("UserEditor", "Rank", nullptr));
         label_3->setText(QApplication::translate("UserEditor", "Name", nullptr));
@@ -224,7 +217,6 @@ public:
 
         country->setItemText(0, QApplication::translate("UserEditor", "none", nullptr));
 
-        moveBack->setText(QApplication::translate("UserEditor", "Back", nullptr));
     } // retranslateUi
 
 };
