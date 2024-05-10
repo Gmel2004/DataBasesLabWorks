@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ChessTactics</class>
- <widget class="QDialog" name="ChessTactics">
+ <class>Tactics</class>
+ <widget class="QDialog" name="Tactics">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -17,7 +17,7 @@
    <item row="4" column="0" colspan="3">
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; font-style:italic;&quot;&gt;Chess Tactics&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; font-style:italic;&quot;&gt; Tactics&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>
@@ -115,7 +115,7 @@
      </column>
      <column>
       <property name="text">
-       <string>ChessPlayers</string>
+       <string>Players</string>
       </property>
      </column>
     </widget>
@@ -149,12 +149,12 @@
         </item>
         <item>
          <property name="text">
-          <string>lichess.org</string>
+          <string>li.org</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>chess.com</string>
+          <string>.com</string>
          </property>
         </item>
        </widget>

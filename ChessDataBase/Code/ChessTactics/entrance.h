@@ -2,7 +2,7 @@
 #define ENTRANCE_H
 
 #include <QMainWindow>
-#include "chesstactics.h"
+#include "tactics.h"
 #include <qmessagebox.h>
 
 QT_BEGIN_NAMESPACE

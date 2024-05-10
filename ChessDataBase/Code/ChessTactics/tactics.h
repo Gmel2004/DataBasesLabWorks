@@ -1,5 +1,5 @@
-#ifndef CHESSTACTICS_H
-#define CHESSTACTICS_H
+#ifndef TACTICS_H
+#define TACTICS_H
 
 #include <QDialog>
 #include "entrance.h"
@@ -7,19 +7,20 @@
 #include "gameeditor.h"
 
 namespace Ui {
-class ChessTactics;
+class Tactics;
 }
 
-class ChessTactics : public QDialog
+class Tactics : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit ChessTactics(QString role, QWidget *parent = nullptr);
-    ~ChessTactics();
-    void UpdateTable();
+    explicit Tactics(QString role, QWidget *parent = nullptr);
+    ~Tactics();
 
 private slots:
+    void UpdateTable();
+
     void on_moveBack_clicked();
 
     void on_editGame_clicked();
@@ -41,9 +42,9 @@ private slots:
     void on_pushFilters_clicked();
 
 private:
-    Ui::ChessTactics *ui;
-    QWidget *userEditor = new UserEditor(this);
-    QWidget *gameEditor = new GameEditor(this);
+    Ui::Tactics *ui;
+    UserEditor *userEditor = new UserEditor(this);
+    GameEditor *gameEditor = new GameEditor(this);
 };
 
-#endif // CHESSTACTICS_H
+#endif // TACTICS_H

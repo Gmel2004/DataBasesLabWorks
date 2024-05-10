@@ -9,22 +9,22 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    chesstactics.cpp \
     gameeditor.cpp \
     main.cpp \
     entrance.cpp \
+    tactics.cpp \
     usereditor.cpp
 
 HEADERS += \
-    chesstactics.h \
     entrance.h \
     gameeditor.h \
+    tactics.h \
     usereditor.h
 
 FORMS += \
-    chesstactics.ui \
     entrance.ui \
     gameeditor.ui \
+    tactics.ui \
     usereditor.ui
 
 # Default rules for deployment.

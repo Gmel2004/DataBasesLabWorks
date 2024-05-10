@@ -26,7 +26,7 @@ class Ui_Entrance
 {
 public:
     QWidget *centralwidget;
-    QWidget *widget;
+    QWidget *layoutWidget;
     QGridLayout *gridLayout;
     QPushButton *logAsGuest;
     QLabel *label;
@@ -42,13 +42,13 @@ public:
         Entrance->resize(800, 600);
         centralwidget = new QWidget(Entrance);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
-        widget = new QWidget(centralwidget);
-        widget->setObjectName(QString::fromUtf8("widget"));
-        widget->setGeometry(QRect(320, 160, 183, 187));
-        gridLayout = new QGridLayout(widget);
+        layoutWidget = new QWidget(centralwidget);
+        layoutWidget->setObjectName(QString::fromUtf8("layoutWidget"));
+        layoutWidget->setGeometry(QRect(320, 160, 183, 199));
+        gridLayout = new QGridLayout(layoutWidget);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         gridLayout->setContentsMargins(0, 0, 0, 0);
-        logAsGuest = new QPushButton(widget);
+        logAsGuest = new QPushButton(layoutWidget);
         logAsGuest->setObjectName(QString::fromUtf8("logAsGuest"));
         QFont font;
         font.setPointSize(14);
@@ -56,18 +56,19 @@ public:
 
         gridLayout->addWidget(logAsGuest, 0, 0, 1, 1);
 
-        label = new QLabel(widget);
+        label = new QLabel(layoutWidget);
         label->setObjectName(QString::fromUtf8("label"));
         label->setFont(font);
 
         gridLayout->addWidget(label, 1, 0, 1, 1);
 
-        lineEdit = new QLineEdit(widget);
+        lineEdit = new QLineEdit(layoutWidget);
         lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
+        lineEdit->setFont(font);
 
         gridLayout->addWidget(lineEdit, 2, 0, 1, 1);
 
-        logAsAdmin = new QPushButton(widget);
+        logAsAdmin = new QPushButton(layoutWidget);
         logAsAdmin->setObjectName(QString::fromUtf8("logAsAdmin"));
         logAsAdmin->setFont(font);
 

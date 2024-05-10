@@ -2,7 +2,7 @@
 #define USEREDITOR_H
 
 #include <QDialog>
-#include "chesstactics.h"
+
 
 namespace Ui {
 class UserEditor;
@@ -29,7 +29,9 @@ private slots:
 
 private:
     Ui::UserEditor *ui;
-    ChessTactics* tactics = nullptr;
+
+signals:
+    void edited();
 };
 
 #endif // USEREDITOR_H

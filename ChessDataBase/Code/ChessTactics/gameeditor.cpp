@@ -28,17 +28,17 @@ void GameEditor::on_linkBox_currentTextChanged(const QString &arg1)
 
 void GameEditor::on_change_clicked()
 {
-
+    emit edited();
 }
 
 
 void GameEditor::on_add_clicked()
 {
-
+    emit edited();
 }
 
 
 void GameEditor::on_remove_clicked()
 {
-
+    emit edited();
 }

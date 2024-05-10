@@ -28,6 +28,9 @@ private slots:
 
 private:
     Ui::GameEditor *ui;
+
+signals:
+    void edited();
 };
 
 #endif // GAMEEDITOR_H

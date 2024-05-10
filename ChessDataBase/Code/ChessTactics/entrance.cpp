@@ -16,7 +16,7 @@ Entrance::~Entrance()
 
 void Entrance::on_logAsGuest_clicked()
 {
-    QWidget *chessTactics = new ChessTactics("guest");
+    QWidget *chessTactics = new Tactics("guest");
     chessTactics->show();
     close();
 }
@@ -26,7 +26,7 @@ void Entrance::on_logAsAdmin_clicked()
 {
     if (ui->lineEdit->text() == "adminpas")
     {
-        QWidget *chessTactics = new ChessTactics("admin");
+        QWidget *chessTactics = new Tactics("admin");
         chessTactics->show();
         close();
     }
