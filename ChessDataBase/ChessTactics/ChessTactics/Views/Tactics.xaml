@@ -62,7 +62,7 @@
                 </GridView>
             </ListView.View>
         </ListView>-->
-        <DataGrid ItemsSource="{Binding Tactics}" AutoGenerateColumns="False">
+        <DataGrid ItemsSource="{Binding Tactics}" AutoGenerateColumns="False" IsReadOnly="True" SelectedItem="{Binding DataGridSelectedItem}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Platform" Width="*" Binding="{Binding Platform}"/>
                 <DataGridTextColumn Header="Date" Width="*" Binding="{Binding Date}"/>
@@ -71,8 +71,15 @@
                 <DataGridTextColumn Header="Opening" Width="*" Binding="{Binding Opening}"/>
                 <DataGridTextColumn Header="Tactics" Width="*" Binding="{Binding Tactics}"/>
                 <DataGridTextColumn Header="Sequence length" MinWidth="110" Width="*" Binding="{Binding SequenceLength}"/>
-                <DataGridTextColumn Header="Link" Width="*" Binding="{Binding Link}"/>
+                <DataGridHyperlinkColumn Header="Link" Width="*" Binding="{Binding Link}">
+                    <!--<DataGridHyperlinkColumn.ElementStyle>
+                        <Style>
+                            <EventSetter Event="Hyperlink.Click" Handler="{Binding ClickLink}" />
+                        </Style>
+                    </DataGridHyperlinkColumn.ElementStyle>-->
+                </DataGridHyperlinkColumn>
                 <DataGridTextColumn Header="Players" Width="*" Binding="{Binding Players}"/>
+                <DataGridTextColumn Header="Result" Width="*" Binding="{Binding Result}"/>
             </DataGrid.Columns>
         </DataGrid>
     </StackPanel>
