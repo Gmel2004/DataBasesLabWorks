@@ -1,5 +1,6 @@
 #include "entrance.h"
 #include "ui_entrance.h"
+#include <QDebug>
 
 Entrance::Entrance(QWidget *parent)
     : QMainWindow(parent)

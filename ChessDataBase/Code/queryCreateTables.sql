@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `chessdb`.`Platform` (
   PRIMARY KEY (`idPlatform`),
   UNIQUE INDEX `Domain_UNIQUE` (`Domain` ASC),
   CONSTRAINT `Domain_empty` CHECK (`Domain` != ''),
-  CONSTRAINT `Domain_regexp` CHECK (REGEXP_LIKE(`Domain`, '^[0-9A-Za-z-]+$')))
+  CONSTRAINT `Domain_regexp` CHECK (REGEXP_LIKE(`Domain`, '^[0-9A-Za-z-]+.[a-zA-Z]+$')))
 ENGINE = InnoDB;
 
 
@@ -61,7 +61,6 @@ CREATE TABLE IF NOT EXISTS `chessdb`.`User` (
   `NickName` VARCHAR(20) NOT NULL,
   `Name` VARCHAR(20) NULL,
   `LastName` VARCHAR(20) NULL,
-  `CurrentRating` INT NOT NULL,
   `idCountry` INT NULL,
   `idPlatform` INT NOT NULL,
   `Rank` ENUM('CM', 'FM', 'IM', 'GM') NULL,
@@ -80,8 +79,7 @@ CREATE TABLE IF NOT EXISTS `chessdb`.`User` (
     ON UPDATE NO ACTION,
   CONSTRAINT `NickName_empty` CHECK (`NickName` != ''),
   CONSTRAINT `Name_empty` CHECK (`Name` != ''),
-  CONSTRAINT `LastName_empty` CHECK (`LastName` != ''),
-  CONSTRAINT `CurrentRating_min` CHECK (`CurrentRating` > 0))
+  CONSTRAINT `LastName_empty` CHECK (`LastName` != ''))
 ENGINE = InnoDB;
 
 
