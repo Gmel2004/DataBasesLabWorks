@@ -8,13 +8,13 @@
         Title="ChessTactics" Height="450" Width="800">
     <StackPanel>
         <Grid>
-            <Button Content="Back" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right" Name="edits">
-                <Button Content="Edit User"/>
-                <Button Content="Edit Game"/>
+            <Button Command="{Binding Back}" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,10"/>
+            <StackPanel Name="edits" VerticalAlignment="Center" HorizontalAlignment="Right" >
+                <Button Command="{Binding EditUser}" Content="Edit User"/>
+                <Button Command="{Binding EditGame}" Content="Edit Game"/>
             </StackPanel>
         </Grid>
-        <Expander Header="filtres">
+        <Expander Header="Filters">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -27,18 +27,20 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Label Content="Platform" Grid.Row="0"/>
                 <Label Content="Start/End Date" Grid.Row="1"/>
                 <Label Content="Time Control" Grid.Row="2"/>
                 <Label Content="Opening" Grid.Row="3"/>
                 <Label Content="Result" Grid.Row="4"/>
-                <ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"/>
-                <DatePicker Grid.Row="1" Grid.Column="1"/>
-                <DatePicker Grid.Row="1" Grid.Column="2"/>
-                <ComboBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"/>
-                <ComboBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"/>
-                <ComboBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"/>
+                <ComboBox ItemsSource="{Binding Path=Filter.Platforms}" SelectedItem="{Binding Path=Filter.SelectedPlatform}" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"/>
+                <DatePicker SelectedDate="{Binding Path=Filter.Start}" Grid.Row="1" Grid.Column="1"/>
+                <DatePicker SelectedDate="{Binding Path=Filter.End}" Grid.Row="1" Grid.Column="2"/>
+                <ComboBox ItemsSource="{Binding Path=Filter.TimeControls}" SelectedItem="{Binding Path=Filter.SelectedTimeControl}"  Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"/>
+                <ComboBox ItemsSource="{Binding Path=Filter.Openings}" SelectedItem="{Binding Path=Filter.SelectedOpening}"  Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"/>
+                <ComboBox ItemsSource="{Binding Path=Filter.Results}" SelectedItem="{Binding Path=Filter.SelectedResult}"  Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"/>
+                <Button Command="{Binding ApplyFilter}" Content="Apply" Grid.Row="5" Grid.Column="2"/>
             </Grid>
         </Expander>
         <Label Content="Chess Tactics" HorizontalAlignment="Center"/>
@@ -60,17 +62,17 @@
                 </GridView>
             </ListView.View>
         </ListView>-->
-        <DataGrid>
+        <DataGrid ItemsSource="{Binding Tactics}" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Platform" Width="*"/>
-                <DataGridTextColumn Header="Date" Width="*"/>
-                <DataGridTextColumn Header="Move Count" Width="*"/>
-                <DataGridTextColumn Header="Time" Width="*"/>
-                <DataGridTextColumn Header="Opening" Width="*"/>
-                <DataGridTextColumn Header="Tactics" Width="*"/>
-                <DataGridTextColumn Header="Sequence length" MinWidth="110" Width="*"/>
-                <DataGridTextColumn Header="Link" Width="*"/>
-                <DataGridTextColumn Header="Players" Width="*"/>
+                <DataGridTextColumn Header="Platform" Width="*" Binding="{Binding Platform}"/>
+                <DataGridTextColumn Header="Date" Width="*" Binding="{Binding Date}"/>
+                <DataGridTextColumn Header="Move Count" Width="*" Binding="{Binding MoveCount}"/>
+                <DataGridTextColumn Header="Time" Width="*" Binding="{Binding Time}"/>
+                <DataGridTextColumn Header="Opening" Width="*" Binding="{Binding Opening}"/>
+                <DataGridTextColumn Header="Tactics" Width="*" Binding="{Binding Tactics}"/>
+                <DataGridTextColumn Header="Sequence length" MinWidth="110" Width="*" Binding="{Binding SequenceLength}"/>
+                <DataGridTextColumn Header="Link" Width="*" Binding="{Binding Link}"/>
+                <DataGridTextColumn Header="Players" Width="*" Binding="{Binding Players}"/>
             </DataGrid.Columns>
         </DataGrid>
     </StackPanel>

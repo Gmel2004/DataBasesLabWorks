@@ -8,8 +8,8 @@
         Title="MainWindow" Height="450" Width="800">
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
         <Button Content="ENTER AS ADMIN" Command="{Binding EnterAsAdmin}"/>
-        <TextBox TextWrapping="Wrap" Width="120" Text="{Binding Code}" Name="code"/>
+        <TextBox TextWrapping="Wrap" Width="120" Text="{Binding Password}" Name="code"/>
         <Label Content="OR"/>
-        <Button Content="ENTER AS READER"/>
+        <Button Content="ENTER AS READER" Command="{Binding EnterAsUser}"/>
     </StackPanel>
 </Window>

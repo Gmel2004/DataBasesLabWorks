@@ -1,4 +1,4 @@
-﻿<Window x:Class="ChessTactics.editUser"
+﻿<Window x:Class="ChessTactics.EditUser"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -29,16 +29,16 @@
         <Label Grid.Row="4" Content="LastName"/>
         <Label Grid.Row="5" Content="Rank"/>
         <Label Grid.Row="6" Content="Country"/>
-        <Button Grid.Row="7" Content="Change"/>
-        <Button Grid.Row="7" Grid.Column="1" Content="Add"/>
-        <Button Grid.Row="7" Grid.Column="2" Content="Remove"/>
-        <ComboBox Grid.Row="1" Grid.Column="1"/>
+        <Button Command="{Binding ChangeUser}" Grid.Row="7" Content="Change"/>
+        <Button Command="{Binding AddUser}" Grid.Row="7" Grid.Column="1" Content="Add"/>
+        <Button Command="{Binding RemoveUser}" Grid.Row="7" Grid.Column="2" Content="Remove"/>
+        <ComboBox ItemsSource="{Binding Path=User.NickNames}" SelectedItem="{Binding Path=User.SelectedNickName}" Grid.Row="1" Grid.Column="1"/>
         <TextBox Grid.Row="1" Grid.Column="2"/>
-        <ComboBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"/>
-        <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"/>
-        <TextBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"/>
-        <ComboBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"/>
-        <ComboBox Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <ComboBox ItemsSource="{Binding Path=User.Platforms}" SelectedItem="{Binding Path=User.SelectedPlatform}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <TextBox Text="{Binding Path=User.Name}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <TextBox Text="{Binding Path=User.LastName}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <ComboBox ItemsSource="{Binding Path=User.Ranks}" SelectedItem="{Binding Path=User.SelectedRank}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <ComboBox ItemsSource="{Binding Path=User.Countries}" SelectedItem="{Binding Path=User.SelectedCountry}" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2"/>
         
     </Grid>
 </Window>

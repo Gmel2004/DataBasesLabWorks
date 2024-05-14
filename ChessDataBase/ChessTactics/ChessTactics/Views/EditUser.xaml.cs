@@ -17,9 +17,9 @@ namespace ChessTactics
     /// <summary>
     /// Логика взаимодействия для editUser.xaml
     /// </summary>
-    public partial class editUser : Window
+    public partial class EditUser : Window
     {
-        public editUser()
+        public EditUser()
         {
             InitializeComponent();
         }

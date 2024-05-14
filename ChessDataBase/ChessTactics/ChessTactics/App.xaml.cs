@@ -9,11 +9,6 @@ namespace ChessTactics
     /// </summary>
     public partial class App : Application
     {
-        //private ModelView mv;
-        //protected override void OnStartup(StartupEventArgs e)
-        //{
-        //    mv = new ModelView();
-        //}
     }
 
 }

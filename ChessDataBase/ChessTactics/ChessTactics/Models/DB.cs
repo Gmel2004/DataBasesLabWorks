@@ -1,6 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 
-namespace ChessTactics
+namespace ChessTactics.Models
 {
     internal class DB
     {
