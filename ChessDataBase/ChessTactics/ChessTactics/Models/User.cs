@@ -8,15 +8,15 @@ namespace ChessTactics.Models
 {
 	public class User
 	{
-		public List<string> NickNames { get; set; } = ["1"];
-		public string SelectedNickName { get; set; } = "1";
-		public List<string> Platforms { get; set; } = ["1"];
-		public string SelectedPlatform { get; set; } = "1";
-		public string Name { get; set; } = "1";
-		public string LastName { get; set; } = "1";
-		public List<string> Ranks { get; set; } = ["1"];
-		public string SelectedRank { get; set; } = "1";
-		public List<string> Countries { get; set; } = ["1"];
-		public string SelectedCountry { get; set; } = "1";
+		public List<string> NickNames { get; set; }
+		public string SelectedNickName { get; set; }
+		public List<string> Platforms { get; set; } = ["lichess.org", "chess.com"];
+		public string SelectedPlatform { get; set; }
+		public string Name { get; set; }
+		public string LastName { get; set; }
+		public List<string> Ranks { get; set; } = ["CM", "FM", "MM", "GM"];
+		public string SelectedRank { get; set; }
+		public List<string> Countries { get; set; }
+		public string SelectedCountry { get; set; }
 	}
 }

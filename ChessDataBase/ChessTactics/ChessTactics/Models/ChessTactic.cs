@@ -10,7 +10,8 @@
         string sequenceLength,
         string link,
         string players,
-        string result)
+        string result,
+        string country)
     {
         public string Platform { get; set; } = platform;
         public string Date { get; set; } = date;
@@ -21,6 +22,8 @@
         public string SequenceLength { get; set; } = sequenceLength;
         public string Link { get; set; } = link;
         public string Players { get; set; } = players;
+
+        public string Country { get; set; } = country;
         public string Result { get; set; } = result;
     }
 }

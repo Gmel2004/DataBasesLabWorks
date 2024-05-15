@@ -79,6 +79,7 @@
                     </DataGridHyperlinkColumn.ElementStyle>-->
                 </DataGridHyperlinkColumn>
                 <DataGridTextColumn Header="Players" Width="*" Binding="{Binding Players}"/>
+                <DataGridTextColumn Header="Country" Width="*" Binding="{Binding Country}"/>
                 <DataGridTextColumn Header="Result" Width="*" Binding="{Binding Result}"/>
             </DataGrid.Columns>
         </DataGrid>

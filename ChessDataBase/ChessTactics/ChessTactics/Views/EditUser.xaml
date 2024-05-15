@@ -20,25 +20,36 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <RadioButton GroupName="UserOptions" Grid.Row="1" Grid.Column="1" Checked="RadioButton1_Checked">
+            <RadioButton.Content>
+                <TextBlock Text="Existing User"/>
+            </RadioButton.Content>
+        </RadioButton>
+        <RadioButton GroupName="UserOptions" Grid.Row="1" Grid.Column="2" Checked="RadioButton2_Checked">
+            <RadioButton.Content>
+                <TextBlock Text="New User"/>
+            </RadioButton.Content>
+        </RadioButton>
         <Label HorizontalAlignment="Center" Grid.Column="1" Content="Edit user"/>
-        <Label Grid.Row="1" Content="NickName"/>
-        <Label Grid.Row="2" Content="Platform"/>
-        <Label Grid.Row="3" Content="Name"/>
-        <Label Grid.Row="4" Content="LastName"/>
-        <Label Grid.Row="5" Content="Rank"/>
-        <Label Grid.Row="6" Content="Country"/>
-        <Button Command="{Binding ChangeUser}" Grid.Row="7" Content="Change"/>
-        <Button Command="{Binding AddUser}" Grid.Row="7" Grid.Column="1" Content="Add"/>
-        <Button Command="{Binding RemoveUser}" Grid.Row="7" Grid.Column="2" Content="Remove"/>
-        <ComboBox ItemsSource="{Binding Path=User.NickNames}" SelectedItem="{Binding Path=User.SelectedNickName}" Grid.Row="1" Grid.Column="1"/>
-        <TextBox Grid.Row="1" Grid.Column="2"/>
-        <ComboBox ItemsSource="{Binding Path=User.Platforms}" SelectedItem="{Binding Path=User.SelectedPlatform}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"/>
-        <TextBox Text="{Binding Path=User.Name}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"/>
-        <TextBox Text="{Binding Path=User.LastName}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"/>
-        <ComboBox ItemsSource="{Binding Path=User.Ranks}" SelectedItem="{Binding Path=User.SelectedRank}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"/>
-        <ComboBox ItemsSource="{Binding Path=User.Countries}" SelectedItem="{Binding Path=User.SelectedCountry}" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <Label Grid.Row="2" Content="NickName"/>
+        <Label Grid.Row="3" Content="Platform"/>
+        <Label Grid.Row="4" Content="Name"/>
+        <Label Grid.Row="5" Content="LastName"/>
+        <Label Grid.Row="6" Content="Rank"/>
+        <Label Grid.Row="7" Content="Country"/>
+        <Button Name="Change" Command="{Binding ChangeUser}" Grid.Row="8" Content="Change" IsEnabled="False"/>
+        <Button Name="Add" Command="{Binding AddUser}" Grid.Row="8" Grid.Column="1" Content="Add" IsEnabled="False"/>
+        <Button Name="Remove" Command="{Binding RemoveUser}" Grid.Row="8" Grid.Column="2" Content="Remove" IsEnabled="False"/>
+        <ComboBox Name="NickNameComboBox" ItemsSource="{Binding Path=User.NickNames}" SelectedItem="{Binding Path=User.SelectedNickName}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Visibility="Hidden"/>
+        <TextBox Name="NickNameTextBox" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Visibility="Hidden" Text="{Binding Path=User.SelectedNickName}"/>
+        <ComboBox ItemsSource="{Binding Path=User.Platforms}" SelectedItem="{Binding Path=User.SelectedPlatform}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <TextBox Text="{Binding Path=User.Name}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <TextBox  Text="{Binding Path=User.LastName}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <ComboBox ItemsSource="{Binding Path=User.Ranks}" SelectedItem="{Binding Path=User.SelectedRank}" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <ComboBox ItemsSource="{Binding Path=User.Countries}" SelectedItem="{Binding Path=User.SelectedCountry}" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2"/>
         
     </Grid>
 </Window>
