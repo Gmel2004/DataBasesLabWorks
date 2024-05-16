@@ -28,19 +28,25 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Label Content="Platform" Grid.Row="0"/>
                 <Label Content="Start/End Date" Grid.Row="1"/>
                 <Label Content="Time Control" Grid.Row="2"/>
                 <Label Content="Opening" Grid.Row="3"/>
                 <Label Content="Result" Grid.Row="4"/>
+                <Label Content="Tactic" Grid.Row="5"/>
+                <Label Content="Country" Grid.Row="6"/>
                 <ComboBox ItemsSource="{Binding Path=Filter.Platforms}" SelectedItem="{Binding Path=Filter.SelectedPlatform}" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"/>
                 <DatePicker SelectedDate="{Binding Path=Filter.Start}" Grid.Row="1" Grid.Column="1"/>
                 <DatePicker SelectedDate="{Binding Path=Filter.End}" Grid.Row="1" Grid.Column="2"/>
                 <ComboBox ItemsSource="{Binding Path=Filter.TimeControls}" SelectedItem="{Binding Path=Filter.SelectedTimeControl}"  Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"/>
                 <ComboBox ItemsSource="{Binding Path=Filter.Openings}" SelectedItem="{Binding Path=Filter.SelectedOpening}"  Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"/>
                 <ComboBox ItemsSource="{Binding Path=Filter.Results}" SelectedItem="{Binding Path=Filter.SelectedResult}"  Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"/>
-                <Button Command="{Binding ApplyFilter}" Content="Apply" Grid.Row="5" Grid.Column="2"/>
+                <ComboBox ItemsSource="{Binding Path=Filter.Tactics}" SelectedItem="{Binding Path=Filter.SelectedTactic}"  Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"/>
+                <ComboBox ItemsSource="{Binding Path=Filter.Countries}" SelectedItem="{Binding Path=Filter.SelectedCountry}"  Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2"/>
+                <Button Command="{Binding ApplyFilter}" Content="Apply" Grid.Row="7" Grid.Column="2"/>
             </Grid>
         </Expander>
         <Label Content="Chess Tactics" HorizontalAlignment="Center"/>

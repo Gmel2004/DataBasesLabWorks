@@ -12,5 +12,9 @@
         public string SelectedOpening { get; set; } = "Any";
         public List<string> Results { get; set; } = ["White", "Black", "Draw", "Any"];
         public string SelectedResult { get; set; } = "Any";
+        public List<string> Tactics { get; set; } = ["Any"];
+        public string SelectedTactic { get; set; } = "Any";
+        public List<string> Countries { get; set; } = ["Any"];
+        public string SelectedCountry { get; set; } = "Any";
     }
 }

@@ -22,7 +22,6 @@
         public string SequenceLength { get; set; } = sequenceLength;
         public string Link { get; set; } = link;
         public string Players { get; set; } = players;
-
         public string Country { get; set; } = country;
         public string Result { get; set; } = result;
     }
