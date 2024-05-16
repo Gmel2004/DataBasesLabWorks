@@ -1,4 +1,5 @@
 ﻿using ChessTactics.Models;
+using ChessTactics.Views;
 using CommunityToolkit.Mvvm.Input;
 using MySql.Data.MySqlClient;
 using System.ComponentModel;
@@ -21,8 +22,9 @@ namespace ChessTactics
         public string Password { get; set; } = "";
         public Filter Filter { get; set; } = new();
         public User User { get; set; }
-        public Game Game { get; set; } = new();
-        public List<ChessTactic> Tactics//надо обновлять таблицу после изменения в пользователях и игре
+        public Game Game { get; set; }
+        public Tactic Tactic { get; set; }
+        public List<ChessTactic> Tactics
         {
             get
             {
@@ -173,6 +175,67 @@ namespace ChessTactics
                 MessageBox.Show(ex.ToString());
             }
         }
+         
+        public void FindGame()
+        {
+            if (Game.SelectedPlatform is null || Game.SelectedPath is null) return;
+            DataTable table = new DataTable();
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            string query = $"""
+                            select * from game
+                            join platfrom p using(idplatform)
+                            join user_game using(idgame)
+                            join opening using (idopening)
+                            where path = '{Game.SelectedPath}' and
+                            p.platfrom = '{Game.SelectedPlatform}'
+                            order by color;
+                            """;
+            adapter.SelectCommand = new MySqlCommand(query, connection);
+            try
+            {
+                adapter.Fill(table);
+                if (table.Rows.Count == 0) return;
+                Game.Date = DateOnly.Parse(table.Rows[0]["Date"].ToString());
+                Game.MoveCount = int.Parse(table.Rows[0]["movecount"].ToString());
+                Game.StartTime = TimeOnly.Parse(table.Rows[0]["starttime"].ToString());
+                Game.SecondToAdd = int.Parse(table.Rows[0]["secondtoadd"].ToString());
+                Game.SelectedOpening = table.Rows[0]["opening"].ToString();
+                Game.SelectedWhite = table.Rows[0]["NickName"].ToString();
+                Game.SelectedBlack = table.Rows[1]["NickName"].ToString();
+                Game.SelectedResult = table.Rows[0]["Result"].ToString();
+                OnPropertyChanged(nameof(Game));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        public void FindTactic()
+        {
+            if (Tactic.SelectedTacticName is null || Tactic.SelectedNumberPreviosMove == 0) return;
+            DataTable table = new DataTable();
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            string query = $"""
+                            select * from sequence_tactics
+                            join tactics t using(idtactics)
+                            where NumberStartMove = {Tactic.SelectedNumberPreviosMove} and
+                            t.tactics = '{Tactic.SelectedTacticName}' and
+                            path = '{Game.SelectedPath}';
+                            """;
+            adapter.SelectCommand = new MySqlCommand(query, connection);
+            try
+            {
+                adapter.Fill(table);
+                if (table.Rows.Count == 0) return;
+                Tactic.MoveCount = int.Parse(table.Rows[0]["movecount"].ToString());
+                OnPropertyChanged(nameof(Tactic));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
 
         public RelayCommand EnterAsAdmin => new(() => Enter(true));
         public RelayCommand EnterAsUser => new(() => Enter(false));
@@ -184,6 +247,7 @@ namespace ChessTactics
 
         public RelayCommand EditUser => new(() =>
         {
+            if (App.Current.Windows.OfType<EditUser>().Count() != 0) return; 
             var window = new EditUser
             {
                 DataContext = this
@@ -192,13 +256,26 @@ namespace ChessTactics
         });
         public RelayCommand EditGame => new(() =>
         {
+            if (App.Current.Windows.OfType<EditGame>().Count() != 0) return;
             var window = new EditGame
             {
                 DataContext = this
             };
             window.Show();
         });
+        public RelayCommand EditTactics => new(() =>
+        {
+            if (App.Current.Windows.OfType<EditTactics>().Count() != 0) return;
+            var window = new EditTactics
+            {
+                DataContext = this
+
+            };
+            window.Show();
+        });
+
         public RelayCommand ClickLink => new(() => { System.Diagnostics.Process.Start(DataGridSelectedItem.Link); });
+
         public RelayCommand ChangeUser => new(() =>
         {
             MySqlDataAdapter adapter = new MySqlDataAdapter();
@@ -218,6 +295,7 @@ namespace ChessTactics
             try
             {
                 adapter.Fill(new DataTable());
+                OnPropertyChanged(nameof(Tactics));
             }
             catch (Exception ex)
             {
@@ -245,7 +323,7 @@ namespace ChessTactics
                 if (!User.NickNames.Contains(User.SelectedNickName))
                 {
                     User.NickNames.Add(User.SelectedNickName);
-                    OnPropertyChanged(nameof(User.NickNames));
+                    OnPropertyChanged(nameof(User));
                 }
             }
             catch (Exception ex)
@@ -286,7 +364,9 @@ namespace ChessTactics
                 if (table.Rows.Count == 0)
                 {
                     User.NickNames.Remove(User.SelectedNickName);
-                    OnPropertyChanged(nameof(User.NickNames));//не работает
+                    User.SelectedNickName = User.NickNames[0];
+                    OnPropertyChanged(nameof(User));
+                    OnPropertyChanged(nameof(Tactics));
                 }
             }
             catch (Exception ex)
@@ -295,9 +375,49 @@ namespace ChessTactics
             }
         });
 
-        public RelayCommand ChangeGame => new(() => { MessageBox.Show("Hello world!"); });
-        public RelayCommand AddGame => new(() => { MessageBox.Show("Hello world!"); });
-        public RelayCommand RemoveGame => new(() => { MessageBox.Show("Hello world!"); });
+        public RelayCommand ChangeGame => new(() =>
+        {
+            OnPropertyChanged(nameof(Tactics));
+        });
+        public RelayCommand AddGame => new(() =>
+        {
+            OnPropertyChanged(nameof(Tactics));
+        });
+        public RelayCommand RemoveGame => new(() =>
+        {
+            OnPropertyChanged(nameof(Tactics));
+        });
+
+        public RelayCommand ChangeTactic => new(() =>
+        {
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            string query = $"""
+                    update sequence_tactic set
+                    
+                    where nickname = '{User.SelectedNickName}'
+                    and idplatform in
+                    (select idplatform from platform
+                    and domain = '{User.SelectedPlatform}');
+                    """;
+            adapter.SelectCommand = new MySqlCommand(query, connection);
+            try
+            {
+                adapter.Fill(new DataTable());
+                OnPropertyChanged(nameof(Tactics));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        });
+        public RelayCommand AddTactic => new(() =>
+        {
+            OnPropertyChanged(nameof(Tactics));
+        });
+        public RelayCommand RemoveTactic => new(() =>
+        {
+            OnPropertyChanged(nameof(Tactics));
+        });
 
 
         public void OnPropertyChanged([CallerMemberName] string prop = "")
@@ -330,6 +450,8 @@ namespace ChessTactics
         public ModelView()
         {
             User = new(FindUser);
+            Game = new(FindGame);
+            Tactic = new(FindTactic);
         }
     }
 }

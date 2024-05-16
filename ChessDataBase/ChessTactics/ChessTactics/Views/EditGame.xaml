@@ -26,43 +26,44 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Label HorizontalAlignment="Center" Grid.Column="1" Content="Edit game"/>
-        <Label Grid.Row="1" Content="Path"/>
-        <Label Grid.Row="2" Content="Number Start Move"/>
-        <Label Grid.Row="3" Content="Tactic"/>
-        <Label Grid.Row="4" Content="Platfom"/>
+        <RadioButton GroupName="GameOptions" Grid.Row="1" Grid.Column="1" Checked="RadioButton1_Checked">
+            <RadioButton.Content>
+                <TextBlock Text="Existing Game"/>
+            </RadioButton.Content>
+        </RadioButton>
+        <RadioButton GroupName="GameOptions" Grid.Row="1" Grid.Column="2" Checked="RadioButton2_Checked">
+            <RadioButton.Content>
+                <TextBlock Text="New Game"/>
+            </RadioButton.Content>
+        </RadioButton>
+        <Label Grid.Row="2" Content="Path"/>
+        <Label Grid.Row="3" Content="Platfom"/>
+        <Label Grid.Row="4" Content="Tactics"/>
         <Label Grid.Row="5" Content="Date"/>
         <Label Grid.Row="6" Content="Move count"/>
         <Label Grid.Row="7" Content="Start time"/>
         <Label Grid.Row="8" Content="Second to add"/>
         <Label Grid.Row="9" Content="Opening"/>
-        <Label Grid.Row="10" Content="Sequence length"/>
-        <Label Grid.Row="11" Content="White"/>
-        <Label Grid.Row="12" Content="Black"/>
-        <Label Grid.Row="13" Content="Result"/>
-        <ComboBox ItemsSource="{Binding Path=Game.Paths}" SelectedItem="{Binding Path=Game.SelectedPath}" Grid.Row="1" Grid.Column="1"/>
-        <TextBox Grid.Row="1" Grid.Column="2"/>
-        <TextBox Text="{Binding Path=Game.NumberStartMove}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"/>
-        <ComboBox ItemsSource="{Binding Path=Game.Tactics}" SelectedItem="{Binding Path=Game.SelectedTactic}" Grid.Row="3" Grid.Column="1"/>
-        <TextBox Grid.Row="3" Grid.Column="2"/>
-        <ComboBox ItemsSource="{Binding Path=Game.Platforms}" SelectedItem="{Binding Path=Game.SelectedPlatform}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <Label Grid.Row="10" Content="White"/>
+        <Label Grid.Row="11" Content="Black"/>
+        <Label Grid.Row="12" Content="Result"/>
+        <ComboBox ItemsSource="{Binding Path=Game.Paths}" SelectedItem="{Binding Path=Game.SelectedPath}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Visibility="Hidden" Name="PathComboBox"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Visibility="Hidden" Name="PathTextBox"/>
+        <Button Name="EditTactics" Content="Edit" Command="{Binding EditTactics}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" IsEnabled="False"/>
+        <ComboBox ItemsSource="{Binding Path=Game.Platforms}" SelectedItem="{Binding Path=Game.SelectedPlatform}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"/>
         <DatePicker SelectedDate="{Binding Path=Game.Date}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"/>
         <TextBox Text="{Binding Path=Game.MoveCount}" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2"/>
         <TextBox Text="{Binding Path=Game.StartTime}" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2"/>
         <TextBox Text="{Binding Path=Game.SecondToAdd}" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2"/>
-        <ComboBox ItemsSource="{Binding Path=Game.Openings}" SelectedItem="{Binding Path=Game.SelectedOpening}" Grid.Row="9" Grid.Column="1"/>
-        <TextBox Grid.Row="9" Grid.Column="2"/>
-        <TextBox Text="{Binding Path=Game.SequenceLength}" Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="2"/>
-        <ComboBox ItemsSource="{Binding Path=Game.Whites}" SelectedItem="{Binding Path=Game.SelectedWhite}" Grid.Row="11" Grid.Column="1"/>
-        <ComboBox ItemsSource="{Binding Path=Game.Blacks}" SelectedItem="{Binding Path=Game.SelectedBlack}" Grid.Row="12" Grid.Column="1"/>
-        <TextBox Grid.Row="11" Grid.Column="2"/>
-        <TextBox Grid.Row="12" Grid.Column="2"/>
-        <ComboBox ItemsSource="{Binding Path=Game.Results}" SelectedItem="{Binding Path=Game.SelectedResult}" Grid.Row="13" Grid.Column="1" Grid.ColumnSpan="2"/>
-        <Button Command="{Binding ChangeGame}" Grid.Row="14" Content="Change"/>
-        <Button Command="{Binding AddGame}" Grid.Row="14" Grid.Column="1" Content="Add"/>
-        <Button Command="{Binding RemoveGame}" Grid.Row="14" Grid.Column="2" Content="Remove"/>
+        <ComboBox ItemsSource="{Binding Path=Game.Openings}" SelectedItem="{Binding Path=Game.SelectedOpening}" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <ComboBox ItemsSource="{Binding Path=Game.Whites}" SelectedItem="{Binding Path=Game.SelectedWhite}" Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <ComboBox ItemsSource="{Binding Path=Game.Blacks}" SelectedItem="{Binding Path=Game.SelectedBlack}" Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <ComboBox ItemsSource="{Binding Path=Game.Results}" SelectedItem="{Binding Path=Game.SelectedResult}" Grid.Row="12" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <Button Command="{Binding ChangeGame}" Grid.Row="13" Content="Change" Name="Change"/>
+        <Button Command="{Binding AddGame}" Grid.Row="13" Grid.Column="1" Content="Add" Name="Add"/>
+        <Button Command="{Binding RemoveGame}" Grid.Row="13" Grid.Column="2" Content="Remove" Name="Remove"/>
     </Grid>
 </Window>
