@@ -11,14 +11,6 @@ namespace ChessTactics
 {
     internal class ModelView : INotifyPropertyChanged
     {
-
-        private MySqlConnection connection = new("""
-                                                server=localhost;
-                                                port=3306;
-                                                username=root;
-                                                password=!?my0&sqlZ%;
-                                                database=chessdb
-                                                """);
         public string Password { get; set; } = "";
         public Filter Filter { get; set; } = new();
         public UserView User { get; set; }
@@ -28,38 +20,47 @@ namespace ChessTactics
         {
             get
             {
+                DB db = new();
                 DataTable table = new DataTable();
                 MySqlDataAdapter adapter = new MySqlDataAdapter();
-                string query =
-                    """
-					select
-					result,
-					c.Country,
-					path,
-					domain,
-					date,
-					movecount,
-					startTime,
-					secondtoadd,
-					Opening,
-					Tactics,
-					totalmovecount,
-					numberstartmove,
-					Color,
-					Rating,
-					NickName
-					from user_game
-					join platform using(idplatform)
-					join game using (idgame)
-					join opening using (idOpening)
-					join user using(nickname, idplatform)
-					left join country c on user.idcountry = c.idcountry
-					join user_game_properties using(idUser_game)
-					join sequence using(idUser_game)
-					join sequence_tactics using(idUser_game, numberStartMove)
-					join tactics using (idTactics)
-					order by path;
-					""";
+                //           string query =
+                //               """
+                //select
+                //result,
+                //c.Country,
+                //path,
+                //domain,
+                //date,
+                //movecount,
+                //startTime,
+                //secondtoadd,
+                //Opening,
+                //Tactics,
+                //totalmovecount,
+                //numberstartmove,
+                //Color,
+                //Rating,
+                //NickName
+                //from user_game
+                //join platform using(idplatform)
+                //join game using (idgame)
+                //join opening using (idOpening)
+                //join user using(nickname, idplatform)
+                //left join country c on user.idcountry = c.idcountry
+                //join user_game_properties using(idUser_game)
+                //join sequence using(idUser_game)
+                //join sequence_tactics using(idUser_game, numberStartMove)
+                //join tactics using (idTactics)
+                //order by path;
+                //""";
+
+                //var query = from ug in db.UserGames
+                //            join p in db.Platforms on ug.IdPlatform equals p.IdPlatform
+                //            join g in db.Games on new { ug.Path, ug.IdPlatform } equals new { g.Path, g.IdPlatform }
+                //            join op in db.Openings on g.IdOpening equals op.IdOpening
+                //            join u in db.Users on new { ug.NickName, ug.IdPlatform } equals new { u.NickName, u.IdPlatform }
+                //            join 
+                var query = db.
 
                 adapter.SelectCommand = new MySqlCommand(query, connection);
                 var result = new List<ChessTactic>();
