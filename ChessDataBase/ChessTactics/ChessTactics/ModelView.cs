@@ -1,6 +1,7 @@
 ﻿using ChessTactics.Models;
 using ChessTactics.Views;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
 using System.ComponentModel;
 using System.Data;
@@ -11,6 +12,8 @@ namespace ChessTactics
 {
     internal class ModelView : INotifyPropertyChanged
     {
+        private MySqlConnection connection = new();
+
         public string Password { get; set; } = "";
         public Filter Filter { get; set; } = new();
         public UserView User { get; set; }
@@ -21,103 +24,105 @@ namespace ChessTactics
             get
             {
                 DB db = new();
-                DataTable table = new DataTable();
-                MySqlDataAdapter adapter = new MySqlDataAdapter();
-                //           string query =
-                //               """
-                //select
-                //result,
-                //c.Country,
-                //path,
-                //domain,
-                //date,
-                //movecount,
-                //startTime,
-                //secondtoadd,
-                //Opening,
-                //Tactics,
-                //totalmovecount,
-                //numberstartmove,
-                //Color,
-                //Rating,
-                //NickName
-                //from user_game
-                //join platform using(idplatform)
-                //join game using (idgame)
-                //join opening using (idOpening)
-                //join user using(nickname, idplatform)
-                //left join country c on user.idcountry = c.idcountry
-                //join user_game_properties using(idUser_game)
-                //join sequence using(idUser_game)
-                //join sequence_tactics using(idUser_game, numberStartMove)
-                //join tactics using (idTactics)
-                //order by path;
-                //""";
+                //DataTable table = new DataTable();
+                //MySqlDataAdapter adapter = new MySqlDataAdapter();
+                string query =
+                """
+                select
+                result,
+                c.Country,
+                path,
+                domain,
+                date,
+                movecount,
+                startTime,
+                secondtoadd,
+                Opening,
+                Tactics,
+                totalmovecount,
+                numberstartmove,
+                Color,
+                Rating,
+                NickName
+                from user_game
+                join platform using(idplatform)
+                join game using (idgame)
+                join opening using (idOpening)
+                join user using(nickname, idplatform)
+                left join country c on user.idcountry = c.idcountry
+                join user_game_properties using(idUser_game)
+                join sequence using(idUser_game)
+                join sequence_tactics using(idUser_game, numberStartMove)
+                join tactics using (idTactics)
+                order by path;
+                """;
 
                 //var query = from ug in db.UserGames
                 //            join p in db.Platforms on ug.IdPlatform equals p.IdPlatform
                 //            join g in db.Games on new { ug.Path, ug.IdPlatform } equals new { g.Path, g.IdPlatform }
                 //            join op in db.Openings on g.IdOpening equals op.IdOpening
                 //            join u in db.Users on new { ug.NickName, ug.IdPlatform } equals new { u.NickName, u.IdPlatform }
-                //            join 
-                var query = db.
+                //            join c in db.Countries on u.IdCountry equals c.IdCountry into gj
+                //            from 
+                var result = db.Database.SqlQueryRaw<ChessTactic>(query).ToList();
 
-                adapter.SelectCommand = new MySqlCommand(query, connection);
-                var result = new List<ChessTactic>();
-                try
-                {
-                    adapter.Fill(table);
-                    foreach (DataRow row in table.Rows)
-                    {
-                        result.Add(new(
-                            row["domain"].ToString(),
-                            row["date"].ToString(),
-                            row["totalmovecount"].ToString(),
-                            $"{row["starttime"]}+{row["secondtoadd"]}",
-                            row["opening"].ToString(),
-                            row["tactics"].ToString(),
-                            row["movecount"].ToString(),
-                            row["domain"].ToString() == "lichess.org" ?
-                            $"https://{row["domain"]}/{row["path"]}/{row["color"].ToString().ToLower()}#{row["numberstartmove"]}" :
-                            $"https://{row["domain"]}/analysis/game/live/{row["path"]}?tab=analysis&move={row["numberstartmove"]}",
-                            row["nickname"].ToString(),
-                            row["result"].ToString(),
-                            row["country"].ToString()));
-                    }
-                    Filter.Openings = result.Select(x => x.Opening).Distinct().Append("Any").ToList();
-                    adapter.SelectCommand = new MySqlCommand("select country from country;", connection);
-                    table = new();
-                    adapter.Fill(table);
-                    User.Countries = [""];
-                    foreach (DataRow row in table.Rows)
-                    {
-                        if (!User.Countries.Contains(row[0].ToString()))
-                        {
-                            User.Countries.Add(row[0].ToString());
-                        }
-                    }
-                    adapter.SelectCommand = new MySqlCommand("select nickname from user;", connection);
-                    table = new();
-                    adapter.Fill(table);
-                    User.NickNames = [];
-                    foreach (DataRow row in table.Rows)
-                    {
-                        if (!User.NickNames.Contains(row[0].ToString()))
-                        {
-                            User.NickNames.Add(row[0].ToString());
-                        }
-                    }
-                    Filter.Countries = result.Select(x => x.Country).Distinct().Append("Any").ToList();
-                    Filter.Tactics = result.Select(x => x.Tactics).Distinct().Append("Any").ToList();
-                    result = result.Where(IsSelected).ToList();
 
-                    OnPropertyChanged(nameof(Filter));
-                    OnPropertyChanged(nameof(User));
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.ToString());
-                }
+                //adapter.SelectCommand = new MySqlCommand(query, connection);
+                //var result = new List<ChessTactic>();
+                //try
+                //{
+                //    //adapter.Fill(table);
+                //    foreach (DataRow row in data /*table.Rows*/)
+                //    {
+                //        result.Add(new(
+                //            row["domain"].ToString(),
+                //            row["date"].ToString(),
+                //            row["totalmovecount"].ToString(),
+                //            $"{row["starttime"]}+{row["secondtoadd"]}",
+                //            row["opening"].ToString(),
+                //            row["tactics"].ToString(),
+                //            row["movecount"].ToString(),
+                //            row["domain"].ToString() == "lichess.org" ?
+                //            $"https://{row["domain"]}/{row["path"]}/{row["color"].ToString().ToLower()}#{row["numberstartmove"]}" :
+                //            $"https://{row["domain"]}/analysis/game/live/{row["path"]}?tab=analysis&move={row["numberstartmove"]}",
+                //            row["nickname"].ToString(),
+                //            row["result"].ToString(),
+                //            row["country"].ToString()));
+                //    }
+                //    //Filter.Openings = result.Select(x => x.Opening).Distinct().Append("Any").ToList();
+                //    //adapter.SelectCommand = new MySqlCommand("select country from country;", connection);
+                //    //table = new();
+                //    //adapter.Fill(table);
+                //    //User.Countries = [""];
+                //    //foreach (DataRow row in table.Rows)
+                //    //{
+                //    //    if (!User.Countries.Contains(row[0].ToString()))
+                //    //    {
+                //    //        User.Countries.Add(row[0].ToString());
+                //    //    }
+                //    //}
+                //    //adapter.SelectCommand = new MySqlCommand("select nickname from user;", connection);
+                //    //table = new();
+                //    //adapter.Fill(table);
+                //    //User.NickNames = [];
+                //    //foreach (DataRow row in table.Rows)
+                //    //{
+                //    //    if (!User.NickNames.Contains(row[0].ToString()))
+                //    //    {
+                //    //        User.NickNames.Add(row[0].ToString());
+                //    //    }
+                //    //}
+                //    //Filter.Countries = result.Select(x => x.Country).Distinct().Append("Any").ToList();
+                //    //Filter.Tactics = result.Select(x => x.Tactics).Distinct().Append("Any").ToList();
+                //    //result = result.Where(IsSelected).ToList();
+
+                //    //OnPropertyChanged(nameof(Filter));
+                //    //OnPropertyChanged(nameof(User));
+                //}
+                //catch (Exception ex)
+                //{
+                //    MessageBox.Show(ex.ToString());
+                //}
                 return result;
             }
         }
