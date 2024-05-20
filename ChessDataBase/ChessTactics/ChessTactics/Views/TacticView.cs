@@ -1,6 +1,6 @@
-﻿namespace ChessTactics.Models
+﻿namespace ChessTactics.Views
 {
-    public class Tactic
+    public class TacticView
     {
         private string tactic;
         private int numberPreviosMove;
@@ -16,11 +16,11 @@
             set { numberPreviosMove = value; OnTacticKeysChanged?.Invoke(); }
             get { return numberPreviosMove; }
         }
-        public int MoveCount { get; set;}
+        public int MoveCount { get; set; }
 
         public event Action OnTacticKeysChanged;
 
-        public Tactic(Action action)
+        public TacticView(Action action)
         {
             OnTacticKeysChanged = action;
         }

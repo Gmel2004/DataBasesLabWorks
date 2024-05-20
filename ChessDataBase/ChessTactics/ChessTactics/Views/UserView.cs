@@ -1,6 +1,6 @@
-﻿namespace ChessTactics.Models
+﻿namespace ChessTactics.Views
 {
-    public class User
+    public class UserView
     {
         private string nickName = "";
         private string platform;
@@ -17,7 +17,7 @@
 
         public event Action OnUserKeysChanged;
 
-        public User(Action action)
+        public UserView(Action action)
         {
             OnUserKeysChanged = action;
         }

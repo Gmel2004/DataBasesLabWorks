@@ -21,9 +21,9 @@ namespace ChessTactics
                                                 """);
         public string Password { get; set; } = "";
         public Filter Filter { get; set; } = new();
-        public User User { get; set; }
-        public Game Game { get; set; }
-        public Tactic Tactic { get; set; }
+        public UserView User { get; set; }
+        public GameView Game { get; set; }
+        public TacticView Tactic { get; set; }
         public List<ChessTactic> Tactics
         {
             get
@@ -430,6 +430,18 @@ namespace ChessTactics
 
         public void Enter(bool asAdmin)
         {
+            using (var db = new DB())
+            {
+                MessageBox.Show(string.Join('\n', db.UserGames), "ug");
+                MessageBox.Show(string.Join('\n', db.Users), "u");
+                MessageBox.Show(string.Join('\n', db.Platforms), "p");
+                MessageBox.Show(string.Join('\n', db.Countries), "c");
+                MessageBox.Show(string.Join('\n', db.Games), "g");
+                MessageBox.Show(string.Join('\n', db.SequenceTactics), "st");
+                MessageBox.Show(string.Join('\n', db.Tactics), "t");
+                MessageBox.Show(string.Join('\n', db.Openings), "o");
+                MessageBox.Show(string.Join('\n', db.Sequences), "s");
+            }
             if (asAdmin && Password != "1234")
             {
                 MessageBox.Show("An incorrect password was entered!", "Access is denied");

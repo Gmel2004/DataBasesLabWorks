@@ -1,6 +1,6 @@
-﻿namespace ChessTactics.Models
+﻿namespace ChessTactics.Views
 {
-    public class Game
+    public class GameView
     {
         private string platfrom;
         private string path;
@@ -32,7 +32,7 @@
 
         public event Action OnGameKeysChanged;
 
-        public Game(Action action)
+        public GameView(Action action)
         {
             OnGameKeysChanged = action;
         }
