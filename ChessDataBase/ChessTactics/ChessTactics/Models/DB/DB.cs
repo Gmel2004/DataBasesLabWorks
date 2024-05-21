@@ -10,8 +10,7 @@ namespace ChessTactics
         public DbSet<Game> Games { get; set; }
         public DbSet<Opening> Openings { get; set; }
         public DbSet<Platform> Platforms { get; set; }
-        public DbSet<Sequence> Sequences { get; set; }
-        public DbSet<SequenceTactic> SequenceTactics { get; set; }
+        public DbSet<GameTactic> SequenceTactics { get; set; }
         public DbSet<Tactic> Tactics { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserGame> UserGames { get; set; }

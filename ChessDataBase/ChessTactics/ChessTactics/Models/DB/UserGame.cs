@@ -1,12 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ChessTactics
 {
     [Table("User_Game")]
-    [PrimaryKey(nameof(NickName), nameof(IdPlatform), nameof(Path))]
     class UserGame
     {
+        [Key]
+        public int IdUserGame { get; set; }
         public enum UserColor
         {
             White,

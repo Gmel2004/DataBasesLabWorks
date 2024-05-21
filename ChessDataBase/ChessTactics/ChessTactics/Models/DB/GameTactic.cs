@@ -1,12 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ChessTactics
 {
     [Table("Sequence_Tactic")]
-    [PrimaryKey(nameof(Path), nameof(IdPlatform), nameof(NumberStartMove), nameof(Idtactic), nameof(MoveCount))]
-    class SequenceTactic
+    class GameTactic
     {
+        [Key]
+        public int IdGameTactic { get; set; }
         public string Path { get; set; }
         public int IdPlatform { get; set; }
         public int NumberStartMove { get; set; }
