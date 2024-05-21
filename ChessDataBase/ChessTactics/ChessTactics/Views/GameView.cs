@@ -8,10 +8,14 @@ namespace ChessTactics.Views
     {
         private string platfrom;
         private string path;
-
+        private bool isNewGame;
         public int? IdWhite { get; set; }
         public int? IdBlack { get; set; }
-        public bool IsNewGame { get; set; }
+        public bool IsNewGame
+        {
+            get => isNewGame;
+            set { isNewGame = value; FindGame(); }
+        }
         public List<string> Paths { get; set; }
         public string SelectedPath
         {
@@ -48,7 +52,7 @@ namespace ChessTactics.Views
             Paths = db.Games.Select(t => t.Path).ToList();
             Platforms = db.Platforms.Select(t => t.PlatformName).ToList();
             Openings = db.Openings.Select(t => t.OpeningName).ToList();
-            Whites = db.Users.Select(t => t.NickName).ToList();
+            Whites = db.Users.Select(t => t.NickName).Distinct().ToList();
             Blacks = Whites;
         }
 

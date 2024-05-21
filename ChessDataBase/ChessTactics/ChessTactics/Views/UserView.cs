@@ -2,7 +2,12 @@
 {
     public class UserView
     {
-        public bool IsNewUser { get; set; }
+        private bool isNewUser;
+        public bool IsNewUser
+        {
+            get => isNewUser;
+            set { isNewUser = value; FindUser(); }
+        }
         private string nickName = "";
         private string platform;
         public List<string> NickNames { get; set; }

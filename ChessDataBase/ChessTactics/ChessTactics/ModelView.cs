@@ -189,6 +189,7 @@ namespace ChessTactics
                 IdPlatform = db.Platforms.Single(x => x.PlatformName == User.SelectedPlatform).IdPlatform
             });
             db.SaveChanges();
+            User.NickNames.Add(User.SelectedNickName);
             OnPropertyChanged(nameof(User));
             OnPropertyChanged(nameof(Tactics));
         });
@@ -200,6 +201,7 @@ namespace ChessTactics
             Single(t => t.NickName == User.SelectedNickName && t.IdPlatform == idPlatform);
             db.Users.Remove(currentUser);
             db.SaveChanges();
+            User.NickNames.Remove(User.SelectedNickName);
             User.SelectedNickName = User.NickNames.Count == 0 ? "" : User.NickNames[0];
             OnPropertyChanged(nameof(User));
             OnPropertyChanged(nameof(Tactics));
@@ -266,6 +268,7 @@ namespace ChessTactics
                 Rating = Game.BlackRating
             });
             db.SaveChanges();
+            Game.Paths.Add(Game.SelectedPath);
             OnPropertyChanged(nameof(Game));
             OnPropertyChanged(nameof(Tactics));
         });
@@ -276,6 +279,8 @@ namespace ChessTactics
             var currentGame = db.Games.Single(x => x.IdPlatform == idPlatform && x.Path == Game.SelectedPath);
             db.Games.Remove(currentGame);
             db.SaveChanges();
+            Game.Paths.Remove(Game.SelectedPath);
+            Game.SelectedPath = Game.Paths.Count == 0 ? "" : Game.Paths[0];
             OnPropertyChanged(nameof(Game));
             OnPropertyChanged(nameof(Tactics));
         });
