@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ChessTactics
 {
-    [Table("Sequence_Tactic")]
-    class GameTactic
+    [Table("Game_Tactic")]
+    public class GameTactic
     {
         [Key]
         public int IdGameTactic { get; set; }

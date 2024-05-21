@@ -23,12 +23,12 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <RadioButton GroupName="UserOptions" Grid.Row="1" Grid.Column="1" Checked="RadioButton1_Checked">
+        <RadioButton Command="{Binding SetExistingUser}" GroupName="UserOptions" Grid.Row="1" Grid.Column="1" Checked="RadioButton1_Checked">
             <RadioButton.Content>
                 <TextBlock Text="Existing User"/>
             </RadioButton.Content>
         </RadioButton>
-        <RadioButton GroupName="UserOptions" Grid.Row="1" Grid.Column="2" Checked="RadioButton2_Checked">
+        <RadioButton Command="{Binding SetNewUser}" GroupName="UserOptions" Grid.Row="1" Grid.Column="2" Checked="RadioButton2_Checked">
             <RadioButton.Content>
                 <TextBlock Text="New User"/>
             </RadioButton.Content>

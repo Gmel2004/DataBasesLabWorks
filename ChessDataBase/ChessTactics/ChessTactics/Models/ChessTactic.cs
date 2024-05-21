@@ -3,11 +3,11 @@
     public class ChessTactic(
         string platform,
         string date,
-        string moveCount,
+        int totalMoveCount,
         string time,
         string opening,
         string tactics,
-        string sequenceLength,
+        int moveCount,
         string link,
         string players,
         string result,
@@ -15,11 +15,11 @@
     {
         public string Platform { get; set; } = platform;
         public string Date { get; set; } = date;
-        public string MoveCount { get; set; } = moveCount;
+        public int MoveCount { get; set; } = totalMoveCount;
         public string Time { get; set; } = time;
         public string Opening { get; set; } = opening;
         public string Tactics { get; set; } = tactics;
-        public string SequenceLength { get; set; } = sequenceLength;
+        public int SequenceLength { get; set; } = moveCount;
         public string Link { get; set; } = link;
         public string Players { get; set; } = players;
         public string Country { get; set; } = country;

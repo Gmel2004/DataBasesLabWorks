@@ -5,7 +5,7 @@ namespace ChessTactics
 {
     [Table("Tactic")]
     [PrimaryKey(nameof(IdTactic), nameof(TacticName))]
-    class Tactic
+    public class Tactic
     {
         public int IdTactic { get; set; }
         [Column("Tactic")]

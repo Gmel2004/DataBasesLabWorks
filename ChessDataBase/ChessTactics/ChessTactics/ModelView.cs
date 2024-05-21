@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
 using System.ComponentModel;
 using System.Data;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 
@@ -12,8 +13,6 @@ namespace ChessTactics
 {
     internal class ModelView : INotifyPropertyChanged
     {
-        private MySqlConnection connection = new();
-
         public string Password { get; set; } = "";
         public Filter Filter { get; set; } = new();
         public UserView User { get; set; }
@@ -23,106 +22,35 @@ namespace ChessTactics
         {
             get
             {
-                DB db = new();
-                //DataTable table = new DataTable();
-                //MySqlDataAdapter adapter = new MySqlDataAdapter();
-                string query =
-                """
-                select
-                result,
-                c.Country,
-                path,
-                domain,
-                date,
-                movecount,
-                startTime,
-                secondtoadd,
-                Opening,
-                Tactics,
-                totalmovecount,
-                numberstartmove,
-                Color,
-                Rating,
-                NickName
-                from user_game
-                join platform using(idplatform)
-                join game using (idgame)
-                join opening using (idOpening)
-                join user using(nickname, idplatform)
-                left join country c on user.idcountry = c.idcountry
-                join user_game_properties using(idUser_game)
-                join sequence using(idUser_game)
-                join sequence_tactics using(idUser_game, numberStartMove)
-                join tactics using (idTactics)
-                order by path;
-                """;
+                var result = new List<ChessTactic>();
+                using (var db = new DB())
+                {
+                    var query = from fgt in db.FindGameTactic select fgt;
+                    foreach (var row in query)
+                    {
+                        result.Add(new(
+                            row.Domain,
+                            row.Date.ToString(),
+                            row.TotalMoveCount,
+                            $"{row.StartTime}+{row.SecondToAdd}",
+                            row.Opening,
+                            row.Tactic,
+                            row.MoveCount,
+                            row.Domain == "lichess.org" ?
+                            $"https://{row.Domain}/{row.Path}/{row.Color.ToString().ToLower()}#{row.NumberStartMove}" :
+                            $"https://{row.Domain}/analysis/game/live/{row.Path}?tab=analysis&move={row.NumberStartMove}",
+                            row.NickName,
+                            row.Result.ToString(),
+                            row.Country));
+                    }
+                }
 
-                //var query = from ug in db.UserGames
-                //            join p in db.Platforms on ug.IdPlatform equals p.IdPlatform
-                //            join g in db.Games on new { ug.Path, ug.IdPlatform } equals new { g.Path, g.IdPlatform }
-                //            join op in db.Openings on g.IdOpening equals op.IdOpening
-                //            join u in db.Users on new { ug.NickName, ug.IdPlatform } equals new { u.NickName, u.IdPlatform }
-                //            join c in db.Countries on u.IdCountry equals c.IdCountry into gj
-                //            from 
-                var result = db.Database.SqlQueryRaw<ChessTactic>(query).ToList();
+                Filter.Openings = result.Select(x => x.Opening).Distinct().Append("Any").ToList();
+                Filter.Countries = result.Select(x => x.Country).Distinct().Append("Any").ToList();
+                Filter.Tactics = result.Select(x => x.Tactics).Distinct().Append("Any").ToList();
+                result = result.Where(IsSelected).ToList();
 
-
-                //adapter.SelectCommand = new MySqlCommand(query, connection);
-                //var result = new List<ChessTactic>();
-                //try
-                //{
-                //    //adapter.Fill(table);
-                //    foreach (DataRow row in data /*table.Rows*/)
-                //    {
-                //        result.Add(new(
-                //            row["domain"].ToString(),
-                //            row["date"].ToString(),
-                //            row["totalmovecount"].ToString(),
-                //            $"{row["starttime"]}+{row["secondtoadd"]}",
-                //            row["opening"].ToString(),
-                //            row["tactics"].ToString(),
-                //            row["movecount"].ToString(),
-                //            row["domain"].ToString() == "lichess.org" ?
-                //            $"https://{row["domain"]}/{row["path"]}/{row["color"].ToString().ToLower()}#{row["numberstartmove"]}" :
-                //            $"https://{row["domain"]}/analysis/game/live/{row["path"]}?tab=analysis&move={row["numberstartmove"]}",
-                //            row["nickname"].ToString(),
-                //            row["result"].ToString(),
-                //            row["country"].ToString()));
-                //    }
-                //    //Filter.Openings = result.Select(x => x.Opening).Distinct().Append("Any").ToList();
-                //    //adapter.SelectCommand = new MySqlCommand("select country from country;", connection);
-                //    //table = new();
-                //    //adapter.Fill(table);
-                //    //User.Countries = [""];
-                //    //foreach (DataRow row in table.Rows)
-                //    //{
-                //    //    if (!User.Countries.Contains(row[0].ToString()))
-                //    //    {
-                //    //        User.Countries.Add(row[0].ToString());
-                //    //    }
-                //    //}
-                //    //adapter.SelectCommand = new MySqlCommand("select nickname from user;", connection);
-                //    //table = new();
-                //    //adapter.Fill(table);
-                //    //User.NickNames = [];
-                //    //foreach (DataRow row in table.Rows)
-                //    //{
-                //    //    if (!User.NickNames.Contains(row[0].ToString()))
-                //    //    {
-                //    //        User.NickNames.Add(row[0].ToString());
-                //    //    }
-                //    //}
-                //    //Filter.Countries = result.Select(x => x.Country).Distinct().Append("Any").ToList();
-                //    //Filter.Tactics = result.Select(x => x.Tactics).Distinct().Append("Any").ToList();
-                //    //result = result.Where(IsSelected).ToList();
-
-                //    //OnPropertyChanged(nameof(Filter));
-                //    //OnPropertyChanged(nameof(User));
-                //}
-                //catch (Exception ex)
-                //{
-                //    MessageBox.Show(ex.ToString());
-                //}
+                OnPropertyChanged(nameof(Filter));
                 return result;
             }
         }
@@ -153,70 +81,6 @@ namespace ChessTactics
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public void FindUser()
-        {
-            if (User.SelectedPlatform is null || User.SelectedNickName is null) return;
-            DataTable table = new DataTable();
-            MySqlDataAdapter adapter = new MySqlDataAdapter();
-            string query = $"""
-                            SELECT u.*, c.*, p.*
-                            FROM user u
-                            LEFT JOIN country c ON u.idcountry = c.idcountry
-                            join platform p using(idplatform)
-                            WHERE u.nickname = '{User.SelectedNickName}' and p.domain = '{User.SelectedPlatform}';
-                            """;
-            adapter.SelectCommand = new MySqlCommand(query, connection);
-            try
-            {
-                adapter.Fill(table);
-                if (table.Rows.Count == 0) return;
-                User.Name = table.Rows[0]["Name"].ToString();
-                User.LastName = table.Rows[0]["LastName"].ToString();
-                User.SelectedRank = table.Rows[0]["Rank"].ToString();
-                User.SelectedCountry = table.Rows[0]["Country"].ToString();
-                OnPropertyChanged(nameof(User));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-         
-        public void FindGame()
-        {
-            if (Game.SelectedPlatform is null || Game.SelectedPath is null) return;
-            DataTable table = new DataTable();
-            MySqlDataAdapter adapter = new MySqlDataAdapter();
-            string query = $"""
-                            select * from game
-                            join platfrom p using(idplatform)
-                            join user_game using(idgame)
-                            join opening using (idopening)
-                            where path = '{Game.SelectedPath}' and
-                            p.platfrom = '{Game.SelectedPlatform}'
-                            order by color;
-                            """;
-            adapter.SelectCommand = new MySqlCommand(query, connection);
-            try
-            {
-                adapter.Fill(table);
-                if (table.Rows.Count == 0) return;
-                Game.Date = DateOnly.Parse(table.Rows[0]["Date"].ToString());
-                Game.MoveCount = int.Parse(table.Rows[0]["movecount"].ToString());
-                Game.StartTime = TimeOnly.Parse(table.Rows[0]["starttime"].ToString());
-                Game.SecondToAdd = int.Parse(table.Rows[0]["secondtoadd"].ToString());
-                Game.SelectedOpening = table.Rows[0]["opening"].ToString();
-                Game.SelectedWhite = table.Rows[0]["NickName"].ToString();
-                Game.SelectedBlack = table.Rows[1]["NickName"].ToString();
-                Game.SelectedResult = table.Rows[0]["Result"].ToString();
-                OnPropertyChanged(nameof(Game));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-
         public void FindTactic()
         {
             if (Tactic.SelectedTacticName is null || Tactic.SelectedNumberPreviosMove == 0) return;
@@ -229,7 +93,6 @@ namespace ChessTactics
                             t.tactics = '{Tactic.SelectedTacticName}' and
                             path = '{Game.SelectedPath}';
                             """;
-            adapter.SelectCommand = new MySqlCommand(query, connection);
             try
             {
                 adapter.Fill(table);
@@ -251,9 +114,16 @@ namespace ChessTactics
         });
         public RelayCommand ApplyFilter => new(() => { OnPropertyChanged(nameof(Tactics)); });
 
+        public RelayCommand SetNewUser => new(() => { User.IsNewUser = true; });
+        public RelayCommand SetNewGame => new(() => { Game.IsNewGame = true; });
+
+        public RelayCommand SetExistingUser => new(() => { User.IsNewUser = false; });
+        public RelayCommand SetExistingGame => new(() => { Game.IsNewGame = false; });
+
         public RelayCommand EditUser => new(() =>
         {
-            if (App.Current.Windows.OfType<EditUser>().Count() != 0) return; 
+            if (App.Current.Windows.OfType<EditUser>().Count() != 0) return;
+            User = new(() => OnPropertyChanged(nameof(User)));
             var window = new EditUser
             {
                 DataContext = this
@@ -263,6 +133,7 @@ namespace ChessTactics
         public RelayCommand EditGame => new(() =>
         {
             if (App.Current.Windows.OfType<EditGame>().Count() != 0) return;
+            Game = new(() => OnPropertyChanged(nameof(Game)));
             var window = new EditGame
             {
                 DataContext = this
@@ -272,6 +143,7 @@ namespace ChessTactics
         public RelayCommand EditTactics => new(() =>
         {
             if (App.Current.Windows.OfType<EditTactics>().Count() != 0) return;
+            Tactic = new(FindTactic);
             var window = new EditTactics
             {
                 DataContext = this
@@ -284,113 +156,127 @@ namespace ChessTactics
 
         public RelayCommand ChangeUser => new(() =>
         {
-            MySqlDataAdapter adapter = new MySqlDataAdapter();
-            string query = $"""
-                    update user set
-                    name = {(User.Name == "" ? "Null" : $"'{User.Name}'")},
-                    lastname = {(User.LastName == "" ? "Null" : $"'{User.LastName}'")},
-                    `rank` = {(User.SelectedRank == "" ? "Null" : $"'{User.SelectedRank}'")},
-                    idCountry = {(User.SelectedCountry == "" ? "Null" :
-                    $"(select idCountry from country where country = '{User.SelectedCountry}' limit 1)")}
-                    where nickname = '{User.SelectedNickName}'
-                    and idplatform in
-                    (select idplatform from platform
-                    where domain = '{User.SelectedPlatform}');
-                    """;
-            adapter.SelectCommand = new MySqlCommand(query, connection);
-            try
-            {
-                adapter.Fill(new DataTable());
-                OnPropertyChanged(nameof(Tactics));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
+            using var db = new DB();
+            var idPlatform = db.Platforms.Single(x => x.PlatformName == User.SelectedPlatform).IdPlatform;
+            var currentUser = db.Users.
+            Single(t => t.NickName == User.SelectedNickName && t.IdPlatform == idPlatform);
+
+            currentUser.Name = User.Name == "" ? null : User.Name;
+            currentUser.LastName = User.LastName == "" ? null : User.LastName;
+            currentUser.Rank = User.SelectedRank == "" ? null :
+            Enum.Parse<ChessTactics.User.UserRank>(User.SelectedRank);
+            currentUser.IdCountry = User.SelectedCountry == "" ? null :
+            db.Countries.Single(t => t.CountryName == User.SelectedCountry).IdCountry;
+            db.SaveChanges();
+            OnPropertyChanged(nameof(User));
+            OnPropertyChanged(nameof(Tactics));
         });
         public RelayCommand AddUser => new(() =>
         {
-            MySqlDataAdapter adapter = new MySqlDataAdapter();
-            string query = $"""
-                            insert into user (name, lastname, `rank`, idcountry, nickname, idplatform) values (
-                            {(User.Name == "" ? "Null" : $"'{User.Name}'")},
-                            {(User.LastName == "" ? "Null" : $"'{User.LastName}'")},
-                            {(User.SelectedRank == "" ? "Null" : $"'{User.SelectedRank}'")},
-                            {(User.SelectedCountry == "" ? "Null" :
-                            $"(select idCountry from country where country = '{User.SelectedCountry}' limit 1)")},
-                            '{User.SelectedNickName}',
-                            (select idplatform from platform
-                            where domain = '{User.SelectedPlatform}' limit 1));
-                            """;
-            adapter.SelectCommand = new MySqlCommand(query, connection);
-            try
+            if (string.IsNullOrEmpty(User.SelectedNickName) ||
+            string.IsNullOrEmpty(User.SelectedPlatform)) return;
+
+            using var db = new DB();
+            db.Users.Add(new()
             {
-                adapter.Fill(new DataTable());
-                if (!User.NickNames.Contains(User.SelectedNickName))
-                {
-                    User.NickNames.Add(User.SelectedNickName);
-                    OnPropertyChanged(nameof(User));
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
+                Name = User.Name == "" ? null : User.Name,
+                LastName = User.LastName == "" ? null : User.LastName,
+                Rank = User.SelectedRank == "" ? null :
+                Enum.Parse<ChessTactics.User.UserRank>(User.SelectedRank),
+                IdCountry = User.SelectedCountry == "" ? null :
+                db.Countries.Single(t => t.CountryName == User.SelectedCountry).IdCountry,
+                NickName = User.SelectedNickName,
+                IdPlatform = db.Platforms.Single(x => x.PlatformName == User.SelectedPlatform).IdPlatform
+            });
+            db.SaveChanges();
+            OnPropertyChanged(nameof(User));
+            OnPropertyChanged(nameof(Tactics));
         });
         public RelayCommand RemoveUser => new(() =>
         {
-            MySqlDataAdapter adapter = new MySqlDataAdapter();
-            string query = $"""
-                            delete from user
-                            where name {(User.Name == "" ? "is Null" : $"= '{User.Name}'")} and
-                            lastname {(User.LastName == "" ? "is Null" : $"= '{User.LastName}'")} and
-                            `rank` {(User.SelectedRank == "" ? "is Null" : $"= '{User.SelectedRank}'")} and
-                            idCountry 
-                            {(User.SelectedCountry == "" ? "is Null" :
-                            $"= (select idCountry from country where country = '{User.SelectedCountry}' limit 1)")} and
-                            nickname = '{User.SelectedNickName}' and
-                            idplatform = (select idplatform from platform
-                            where domain = '{User.SelectedPlatform}' limit 1);
-                            """;
-            adapter.SelectCommand = new MySqlCommand(query, connection);
-            try
-            {
-                adapter.Fill(new DataTable());
-                adapter.SelectCommand = new MySqlCommand($"select * from user where nickname = '{User.SelectedNickName}';",
-                    connection);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-            try
-            {
-                DataTable table = new();
-                adapter.Fill(table);
-                if (table.Rows.Count == 0)
-                {
-                    User.NickNames.Remove(User.SelectedNickName);
-                    User.SelectedNickName = User.NickNames[0];
-                    OnPropertyChanged(nameof(User));
-                    OnPropertyChanged(nameof(Tactics));
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
+            using var db = new DB();
+            var idPlatform = db.Platforms.Single(x => x.PlatformName == User.SelectedPlatform).IdPlatform;
+            var currentUser = db.Users.
+            Single(t => t.NickName == User.SelectedNickName && t.IdPlatform == idPlatform);
+            db.Users.Remove(currentUser);
+            db.SaveChanges();
+            User.SelectedNickName = User.NickNames.Count == 0 ? "" : User.NickNames[0];
+            OnPropertyChanged(nameof(User));
+            OnPropertyChanged(nameof(Tactics));
         });
 
         public RelayCommand ChangeGame => new(() =>
         {
+            using var db = new DB();
+            var idPlatform = db.Platforms.Single(x => x.PlatformName == Game.SelectedPlatform).IdPlatform;
+            var currentGame = db.Games.Single(x => x.IdPlatform == idPlatform && x.Path == Game.SelectedPath);
+            currentGame.Result = Game.SelectedResult == "" ? null :
+            Enum.Parse<Models.DB.Game.GameResult>(Game.SelectedResult);
+            currentGame.SecondToAdd = Game.SecondToAdd;
+            currentGame.Date = Game.Date;
+            currentGame.StartTime = Game.StartTime;
+            currentGame.IdOpening = db.Openings.Single(x => x.OpeningName == Game.SelectedOpening).IdOpening;
+            currentGame.TotalMoveCount = Game.MoveCount;
+            var white = db.UserGames.Single(t => t.IdUserGame == Game.IdWhite);
+            white.NickName = Game.SelectedWhite;
+            white.Rating = Game.WhiteRating;
+            var black = db.UserGames.Single(t => t.IdUserGame == Game.IdBlack);
+            black.NickName = Game.SelectedBlack;
+            black.Rating = Game.BlackRating;
+            db.SaveChanges();
+            OnPropertyChanged(nameof(Game));
             OnPropertyChanged(nameof(Tactics));
         });
         public RelayCommand AddGame => new(() =>
         {
+            if (string.IsNullOrEmpty(Game.SelectedPath) ||
+            string.IsNullOrEmpty(Game.SelectedPlatform) ||
+            string.IsNullOrEmpty(Game.SelectedWhite) ||
+            string.IsNullOrEmpty(Game.SelectedBlack)) return;
+
+            using var db = new DB();
+            var idPlatform = db.Platforms.Single(x => x.PlatformName == Game.SelectedPlatform).IdPlatform;
+            var white = db.Users.Single(t => t.NickName == Game.SelectedWhite && t.IdPlatform == idPlatform);
+            var black = db.Users.Single(t => t.NickName == Game.SelectedBlack && t.IdPlatform == idPlatform);
+            db.Games.Add(new()
+            {
+                Result = Enum.Parse<Models.DB.Game.GameResult>(Game.SelectedResult),
+                Path = Game.SelectedPath,
+                IdPlatform = idPlatform,
+                SecondToAdd = Game.SecondToAdd,
+                Date = Game.Date,
+                StartTime = Game.StartTime,
+                IdOpening = db.Openings.Single(t => t.OpeningName == Game.SelectedOpening).IdOpening,
+                TotalMoveCount = Game.MoveCount,
+            });
+            db.UserGames.Add(new()
+            {
+                Color = UserGame.UserColor.White,
+                IdPlatform = idPlatform,
+                NickName = white.NickName,
+                Path = Game.SelectedPath,
+                Rating = Game.WhiteRating
+            });
+            db.UserGames.Add(new()
+            {
+                Color = UserGame.UserColor.Black,
+                IdPlatform = idPlatform,
+                NickName = black.NickName,
+                Path = Game.SelectedPath,
+                Rating = Game.BlackRating
+            });
+            db.SaveChanges();
+            OnPropertyChanged(nameof(Game));
             OnPropertyChanged(nameof(Tactics));
         });
         public RelayCommand RemoveGame => new(() =>
         {
+            using var db = new DB();
+            var idPlatform = db.Platforms.Single(x => x.PlatformName == Game.SelectedPlatform).IdPlatform;
+            var currentGame = db.Games.Single(x => x.IdPlatform == idPlatform && x.Path == Game.SelectedPath);
+            db.Games.Remove(currentGame);
+            db.SaveChanges();
+            OnPropertyChanged(nameof(Game));
             OnPropertyChanged(nameof(Tactics));
         });
 
@@ -405,7 +291,6 @@ namespace ChessTactics
                     (select idplatform from platform
                     and domain = '{User.SelectedPlatform}');
                     """;
-            adapter.SelectCommand = new MySqlCommand(query, connection);
             try
             {
                 adapter.Fill(new DataTable());
@@ -436,18 +321,6 @@ namespace ChessTactics
 
         public void Enter(bool asAdmin)
         {
-            using (var db = new DB())
-            {
-                MessageBox.Show(string.Join('\n', db.UserGames), "ug");
-                MessageBox.Show(string.Join('\n', db.Users), "u");
-                MessageBox.Show(string.Join('\n', db.Platforms), "p");
-                MessageBox.Show(string.Join('\n', db.Countries), "c");
-                MessageBox.Show(string.Join('\n', db.Games), "g");
-                MessageBox.Show(string.Join('\n', db.SequenceTactics), "st");
-                MessageBox.Show(string.Join('\n', db.Tactics), "t");
-                MessageBox.Show(string.Join('\n', db.Openings), "o");
-                MessageBox.Show(string.Join('\n', db.Sequences), "s");
-            }
             if (asAdmin && Password != "1234")
             {
                 MessageBox.Show("An incorrect password was entered!", "Access is denied");
@@ -463,13 +336,6 @@ namespace ChessTactics
             window.Closed += (obj, e) => App.Current.MainWindow.Show();
             App.Current.MainWindow.Hide();
             window.Show();
-        }
-
-        public ModelView()
-        {
-            User = new(FindUser);
-            Game = new(FindGame);
-            Tactic = new(FindTactic);
         }
     }
 }

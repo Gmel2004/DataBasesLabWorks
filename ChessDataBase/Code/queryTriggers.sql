@@ -17,3 +17,24 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+DELIMITER $$
+
+CREATE TRIGGER before_insert_game_tactic
+BEFORE INSERT ON game_tactic
+FOR EACH ROW
+BEGIN
+    DECLARE conflicting_count INT;
+    SELECT COUNT(*) INTO conflicting_count
+    FROM game_tactic
+    WHERE idPlatform = NEW.idPlatform
+      AND Path = NEW.Path
+      AND idTactic = NEW.idTactic
+      AND (numberStartMove <= NEW.MoveCount OR MoveCount >= NEW.numberStartMove);
+    IF conflicting_count > 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Невозможно добавить запись в game_tactic. Конфликт по условиям MoveCount и numberStartMove.';
+    END IF;
+END$$
+
+DELIMITER ;
+

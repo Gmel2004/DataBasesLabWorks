@@ -1,11 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
+using System.Windows;
 
 namespace ChessTactics.Models.DB
 {
     [Table("Game")]
     [PrimaryKey(nameof(Path), nameof(IdPlatform))]
-    class Game
+    public class Game
     {
         public string Path { get; set; }
         public int IdPlatform { get; set; }

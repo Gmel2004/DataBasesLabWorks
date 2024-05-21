@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ChessTactics
 {
     [Table("Country")]
-    class Country
+    public class Country
     {
         [Key]
         public int IdCountry { get; set; }
