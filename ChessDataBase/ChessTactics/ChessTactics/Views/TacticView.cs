@@ -39,7 +39,8 @@ namespace ChessTactics.Views
 			using var db = new DB();
 			IdPlatform = db.Platforms.Single(t => t.PlatformName == domain).IdPlatform;
 			TacticNames = db.Tactics.Select(t => t.TacticName).ToList();
-			NumberStartMoves = db.GameTactics.Select(t => t.NumberStartMove).ToList();
+			NumberStartMoves = db.GameTactics.Select(t => t.NumberStartMove).Distinct().ToList();
+			NumberStartMoves.Sort();
 		}
 
 		public void FindTactic()

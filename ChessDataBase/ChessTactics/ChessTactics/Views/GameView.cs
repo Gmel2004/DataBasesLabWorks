@@ -58,6 +58,7 @@ namespace ChessTactics.Views
 
         public void FindGame()
         {
+            App.Current.Windows.OfType<EditGame>().Single().EditTactics.IsEnabled = false;
             if (IsNewGame || SelectedPlatform is null || SelectedPath is null) return;
             using var db = new DB();
             var query = db.FindGame.Where(x => x.Domain == SelectedPlatform && x.Path == SelectedPath);
@@ -90,6 +91,7 @@ namespace ChessTactics.Views
             SelectedOpening = currentGame.Opening;
             SelectedResult = currentGame.Result.ToString();
             Update();
+            App.Current.Windows.OfType<EditGame>().Single().EditTactics.IsEnabled = true;
         }
     }
 }

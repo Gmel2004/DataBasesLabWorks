@@ -1,16 +1,18 @@
 ﻿using ChessTactics.Models;
 using ChessTactics.Views;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using MySqlConnector;
 using System.ComponentModel;
 using System.Data;
 using System.Runtime.CompilerServices;
+using System.Security;
 using System.Windows;
 
 namespace ChessTactics
 {
 	internal class ModelView : INotifyPropertyChanged
 	{
-		public string Password { get; set; } = "";
 		public Filter Filter { get; set; } = new();
 		public UserView User { get; set; }
 		public GameView Game { get; set; }
@@ -102,7 +104,7 @@ namespace ChessTactics
 			{
 				DataContext = this
 			};
-			window.Show();
+			window.ShowDialog();
 		});
 		public RelayCommand EditGame => new(() =>
 		{
@@ -112,7 +114,7 @@ namespace ChessTactics
 			{
 				DataContext = this
 			};
-			window.Show();
+			window.ShowDialog();
 		});
 		public RelayCommand EditTactics => new(() =>
 		{
@@ -120,8 +122,8 @@ namespace ChessTactics
 			Tactic = new(Game.SelectedPath, Game.SelectedPlatform, () => OnPropertyChanged(nameof(Tactic)));
 			var window = new EditTactics
 			{
-				DataContext = this
-			};
+				DataContext = this,
+            };
 			window.ShowDialog();
 		});
 
@@ -269,6 +271,7 @@ namespace ChessTactics
 		});
 		public RelayCommand AddTactic => new(() =>
 		{
+			if (string.IsNullOrEmpty(Tactic.SelectedTacticName) || Tactic.SelectedNumberStartMove < 1) return;
 			using var db = new DB();
 			db.GameTactics.Add(new()
 			{
@@ -278,6 +281,10 @@ namespace ChessTactics
 				Path = Tactic.Path,
 				NumberStartMove = Tactic.SelectedNumberStartMove
 			});
+			db.SaveChanges();
+			Tactic.NumberStartMoves.Add(Tactic.SelectedNumberStartMove);
+			Tactic.NumberStartMoves.Sort();
+			OnPropertyChanged(nameof(Tactic));
 			OnPropertyChanged(nameof(Tactics));
 		});
 		public RelayCommand RemoveTactic => new(() =>
@@ -285,8 +292,11 @@ namespace ChessTactics
 			using var db = new DB();
 			var currentTactic = db.GameTactics.Single(t => t.IdGameTactic == Tactic.IdGameTactic);
 			db.GameTactics.Remove(currentTactic);
-			OnPropertyChanged(nameof(Tactics));
-		});
+            db.SaveChanges();
+            Tactic.NumberStartMoves.Remove(Tactic.SelectedNumberStartMove);
+            OnPropertyChanged(nameof(Tactic));
+            OnPropertyChanged(nameof(Tactics));
+        });
 
 
 		public void OnPropertyChanged([CallerMemberName] string prop = "")
@@ -299,11 +309,39 @@ namespace ChessTactics
 
 		public void Enter(bool asAdmin)
 		{
-			if (asAdmin && Password != "1234")
+			if (asAdmin)
 			{
-				MessageBox.Show("An incorrect password was entered!", "Access is denied");
-				return;
+				var login = "Admin".ConvertToSecureString();
+				var password = ((MainWindow)App.Current.MainWindow).Pass.SecurePassword;
+
+                DB.Login = login;
+				DB.Password = password;
+				var conn = new MySqlConnection(
+                        $"""
+						server=localhost;
+						user={login.ConvertToUnsecureString()};
+						password={password.ConvertToUnsecureString()};
+						database=chesstactics;
+						""");
+                try
+				{
+                    conn.Open();
+                }
+				catch (MySqlException ex)
+				{
+					MessageBox.Show("The wrong password was entered", "Access denied");
+					return;
+				}
+				finally
+				{
+                    conn.Close();
+                }
 			}
+			else
+			{
+				DB.Login = "Viewer".ConvertToSecureString();
+				DB.Password = new();
+            }
 
 			var window = new Tactics
 			{

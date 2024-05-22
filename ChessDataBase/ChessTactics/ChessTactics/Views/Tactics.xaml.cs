@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,14 +25,15 @@ namespace ChessTactics
             InitializeComponent();
         }
 
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ClickLink(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
+            Hyperlink link = (Hyperlink)e.OriginalSource;
+            var psi = new ProcessStartInfo
+            {
+                FileName = link.NavigateUri.AbsoluteUri,
+                UseShellExecute = true
+            };
+            Process.Start(psi);
         }
     }
 }

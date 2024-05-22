@@ -84,7 +84,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ChessTactics`.`Opening` (
   `idOpening` INT AUTO_INCREMENT,
-  `Opening` NVARCHAR(20) NOT NULL,
+  `Opening` NVARCHAR(50) NOT NULL,
   PRIMARY KEY (`idOpening`),
   UNIQUE INDEX `Opening_UNIQUE` (`Opening` ASC),
   CONSTRAINT `Opening_Empty` CHECK (`Opening` != ''))
@@ -123,72 +123,58 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ChessTactics`.`Sequence`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ChessTactics`.`Sequence` (
-  `NumberPreviousMove` INT UNSIGNED NOT NULL,
-  `idPlatform` INT NOT NULL,
-  `Path` NVARCHAR(20) NOT NULL,
-  PRIMARY KEY (`NumberPreviousMove`, `idPlatform`, `Path`),
-  INDEX `fk_Sequence_Game1_idx` (`idPlatform` ASC, `Path` ASC),
-  CONSTRAINT `fk_Sequence_Game1`
-    FOREIGN KEY (`idPlatform` , `Path`)
-    REFERENCES `ChessTactics`.`Game` (`idPlatform` , `Path`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `ChessTactics`.`User_Game`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ChessTactics`.`User_Game` (
+  `idUserGame` INT AUTO_INCREMENT,
   `NickName` NVARCHAR(20) NOT NULL,
   `Color` ENUM('White', 'Black') NOT NULL,
   `Rating` INT NOT NULL,
   `idPlatform` INT NOT NULL,
   `Path` NVARCHAR(20) NOT NULL,
   INDEX `fk_User_Game_User1_idx` (`NickName` ASC),
-  PRIMARY KEY (`NickName`, `idPlatform`, `Path`),
+  PRIMARY KEY (`idUserGame`),
   INDEX `fk_User_Game_Game1_idx` (`idPlatform` ASC, `Path` ASC),
-  CONSTRAINT `fk_User_Game_User1`
-    FOREIGN KEY (`NickName`)
-    REFERENCES `ChessTactics`.`User` (`NickName`)
+  CONSTRAINT `fk_User_Game_User10`
+    FOREIGN KEY (`NickName`, `idPlatform`)
+    REFERENCES `ChessTactics`.`User` (`NickName`, `idPlatform`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_User_Game_Game1`
+  CONSTRAINT `fk_User_Game_Game10`
     FOREIGN KEY (`idPlatform` , `Path`)
     REFERENCES `ChessTactics`.`Game` (`idPlatform` , `Path`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION,
-  CONSTRAINT `Rating_min` CHECK (`Rating` > 0))
-ENGINE = InnoDB;
+  CONSTRAINT `Rating_minimum` CHECK (`Rating` > 0));
+
 
 
 -- -----------------------------------------------------
 -- Table `ChessTactics`.`Sequence_Tactic`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ChessTactics`.`Sequence_Tactic` (
-  `idTactic` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `ChessTactics`.`Game_Tactic` (
+  `idGameTactic` INT NOT NULL AUTO_INCREMENT,
   `MoveCount` INT UNSIGNED NOT NULL,
-  `NumberPreviousMove` INT UNSIGNED NOT NULL,
+  `NumberStartMove` INT UNSIGNED NOT NULL,
   `idPlatform` INT NOT NULL,
   `Path` NVARCHAR(20) NOT NULL,
-  PRIMARY KEY (`idTactic`, `NumberPreviousMove`, `idPlatform`, `Path`),
-  INDEX `fk_Sequence_has_Tactics_Tactics1_idx` (`idTactic` ASC),
-  INDEX `fk_Sequence_Tactic_Sequence1_idx` (`NumberPreviousMove` ASC, `idPlatform` ASC, `Path` ASC),
-  CONSTRAINT `fk_Sequence_has_Tactics_Tactics1`
+  `idTactic` INT NOT NULL,
+  INDEX `fk_Sequence_Tactic_Game1_idx` (`idPlatform` ASC, `Path` ASC),
+  INDEX `fk_Sequence_Tactic_Tactic1_idx` (`idTactic` ASC),
+  PRIMARY KEY (`idSequenceTactic`),
+  CONSTRAINT `fk_Sequence_Tactic_Game1`
+    FOREIGN KEY (`idPlatform` , `Path`)
+    REFERENCES `ChessTactics`.`Game` (`idPlatform` , `Path`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Sequence_Tactic_Tactic1`
     FOREIGN KEY (`idTactic`)
     REFERENCES `ChessTactics`.`Tactic` (`idTactic`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Sequence_Tactic_Sequence1`
-    FOREIGN KEY (`NumberPreviousMove` , `idPlatform` , `Path`)
-    REFERENCES `ChessTactics`.`Sequence` (`NumberPreviousMove` , `idPlatform` , `Path`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION,
-  CONSTRAINT `MoveCount_min` CHECK (`MoveCount` > 0))
-ENGINE = InnoDB;
+  CONSTRAINT `MoveCount_minimum` CHECK (`MoveCount` > 0));
+
+ALTER TABLE game_tactic ADD UNIQUE `game_tactic_unique_index`(`idPlatform`, `path`, `numberstartmove`, `idtactic`, `movecount`);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

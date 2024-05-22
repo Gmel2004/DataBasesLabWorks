@@ -1,11 +1,15 @@
-﻿using ChessTactics.Models.DB;
+﻿using ChessTactics.Models;
+using ChessTactics.Models.DB;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Security;
 
 namespace ChessTactics
 {
     class DB : DbContext
     {
+        public static SecureString Login { private get; set; }
+        public static SecureString Password { private get; set; }
         public DbSet<Country> Countries { get; set; } = null!;
         public DbSet<Game> Games { get; set; }
         public DbSet<Opening> Openings { get; set; }
@@ -24,7 +28,7 @@ namespace ChessTactics
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseMySql(
-                "server=localhost;user=root;password=!?my0&sqlZ%;database=chesstactics;",
+                $"server=localhost;user={Login.ConvertToUnsecureString()};password={Password.ConvertToUnsecureString()};database=chesstactics;",
                 new MySqlServerVersion(new Version(8, 4, 0)));
         }
 

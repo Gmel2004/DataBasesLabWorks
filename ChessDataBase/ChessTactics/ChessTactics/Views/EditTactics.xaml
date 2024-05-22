@@ -37,9 +37,8 @@
         <Button Name="Change" Command="{Binding ChangeTactic}" Grid.Row="5" Content="Change" IsEnabled="False"/>
         <Button Name="Add" Command="{Binding AddTactic}" Grid.Row="5" Grid.Column="1" Content="Add" IsEnabled="False"/>
         <Button Name="Remove" Command="{Binding RemoveTactic}" Grid.Row="5" Grid.Column="2" Content="Remove" IsEnabled="False"/>
-        <ComboBox Name="TacticNameComboBox" ItemsSource="{Binding Path=Tactic.TacticNames}" SelectedItem="{Binding Path=Tactic.SelectedTacticName}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Visibility="Hidden"/>
-        <TextBox Name="TacticNameTextBox" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Visibility="Hidden" Text="{Binding Path=Tactic.SelectedTacticName}"/>
-        <ComboBox Name="NumberPreviosMoveComboBox"  ItemsSource="{Binding Path=Tactic.NumberStartMoves}" SelectedItem="{Binding Path=Tactic.SelectedNumberPreviosMove}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Visibility="Hidden"/>
+        <ComboBox Name="TacticNameComboBox" ItemsSource="{Binding Path=Tactic.TacticNames}" SelectedItem="{Binding Path=Tactic.SelectedTacticName}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <ComboBox Name="NumberPreviosMoveComboBox"  ItemsSource="{Binding Path=Tactic.NumberStartMoves}" SelectedItem="{Binding Path=Tactic.SelectedNumberStartMove}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Visibility="Hidden"/>
         <TextBox Name="NumberPreviosMoveTextBox" Text="{Binding Path=Tactic.SelectedNumberStartMove}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Visibility="Hidden"/>
         <TextBox Text="{Binding Path=Tactic.MoveCount}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"/>
     </Grid>

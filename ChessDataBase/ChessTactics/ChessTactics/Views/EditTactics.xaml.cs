@@ -14,8 +14,6 @@ namespace ChessTactics.Views
 
         private void RadioButton1_Checked(object sender, RoutedEventArgs e)
         {
-            TacticNameComboBox.Visibility = Visibility.Visible;
-            TacticNameTextBox.Visibility = Visibility.Hidden;
             NumberPreviosMoveComboBox.Visibility = Visibility.Visible;
             NumberPreviosMoveTextBox.Visibility = Visibility.Hidden;
             Change.IsEnabled = true;
@@ -25,13 +23,11 @@ namespace ChessTactics.Views
 
         private void RadioButton2_Checked(object sender, RoutedEventArgs e)
         {
-            TacticNameComboBox.Visibility = Visibility.Hidden;
-            TacticNameTextBox.Visibility = Visibility.Visible;
             NumberPreviosMoveComboBox.Visibility = Visibility.Hidden;
             NumberPreviosMoveTextBox.Visibility = Visibility.Visible;
-            Change.IsEnabled = true;
-            Remove.IsEnabled = true;
-            Add.IsEnabled = false;
+            Change.IsEnabled = false;
+            Remove.IsEnabled = false;
+            Add.IsEnabled = true;
         }
     }
 }

@@ -72,17 +72,17 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Platform" Width="*" Binding="{Binding Platform}"/>
                 <DataGridTextColumn Header="Date" Width="*" Binding="{Binding Date}"/>
-                <DataGridTextColumn Header="Move Count" Width="*" Binding="{Binding MoveCount}"/>
+                <DataGridTextColumn Header="Total move Count" Width="*" Binding="{Binding MoveCount}"/>
                 <DataGridTextColumn Header="Time" Width="*" Binding="{Binding Time}"/>
                 <DataGridTextColumn Header="Opening" Width="*" Binding="{Binding Opening}"/>
                 <DataGridTextColumn Header="Tactics" Width="*" Binding="{Binding Tactics}"/>
-                <DataGridTextColumn Header="Sequence length" MinWidth="110" Width="*" Binding="{Binding SequenceLength}"/>
+                <DataGridTextColumn Header="Move Count" MinWidth="110" Width="*" Binding="{Binding SequenceLength}"/>
                 <DataGridHyperlinkColumn Header="Link" Width="*" Binding="{Binding Link}">
-                    <!--<DataGridHyperlinkColumn.ElementStyle>
+                    <DataGridHyperlinkColumn.ElementStyle>
                         <Style>
-                            <EventSetter Event="Hyperlink.Click" Handler="{Binding ClickLink}" />
+                            <EventSetter Event="Hyperlink.Click" Handler="ClickLink" />
                         </Style>
-                    </DataGridHyperlinkColumn.ElementStyle>-->
+                    </DataGridHyperlinkColumn.ElementStyle>
                 </DataGridHyperlinkColumn>
                 <DataGridTextColumn Header="Players" Width="*" Binding="{Binding Players}"/>
                 <DataGridTextColumn Header="Country" Width="*" Binding="{Binding Country}"/>
