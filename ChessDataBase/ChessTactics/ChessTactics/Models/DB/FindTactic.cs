@@ -9,5 +9,7 @@ namespace ChessTactics.Models.DB
         public int NumberStartMove { get; set; }
         public string Tactic { get; set; }
         public string Path { get; set; }
-    }
+		public int IdGameTactic { get; set; }
+		public int IdPlatform { get; set; }
+	}
 }

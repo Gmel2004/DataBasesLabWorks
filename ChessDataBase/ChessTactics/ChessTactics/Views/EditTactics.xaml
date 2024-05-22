@@ -20,27 +20,27 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <RadioButton GroupName="TacticOptions" Grid.Row="1" Grid.Column="1" Checked="RadioButton1_Checked">
+        <RadioButton Command="{Binding SetExistingTactic}" GroupName="TacticOptions" Grid.Row="1" Grid.Column="1" Checked="RadioButton1_Checked">
             <RadioButton.Content>
                 <TextBlock Text="Existing Tactic"/>
             </RadioButton.Content>
         </RadioButton>
-        <RadioButton GroupName="TacticOptions" Grid.Row="1" Grid.Column="2" Checked="RadioButton2_Checked">
+        <RadioButton Command="{Binding SetNewTactic}" GroupName="TacticOptions" Grid.Row="1" Grid.Column="2" Checked="RadioButton2_Checked">
             <RadioButton.Content>
                 <TextBlock Text="New Tactics"/>
             </RadioButton.Content>
         </RadioButton>
         <Label HorizontalAlignment="Center" Grid.Column="1" Content="Edit Tactic"/>
         <Label Grid.Row="2" Content="Tactic Name"/>
-        <Label Grid.Row="3" Content="Number of the previous move"/>
+        <Label Grid.Row="3" Content="Number of the start move"/>
         <Label Grid.Row="4" Content="Move count"/>
         <Button Name="Change" Command="{Binding ChangeTactic}" Grid.Row="5" Content="Change" IsEnabled="False"/>
         <Button Name="Add" Command="{Binding AddTactic}" Grid.Row="5" Grid.Column="1" Content="Add" IsEnabled="False"/>
         <Button Name="Remove" Command="{Binding RemoveTactic}" Grid.Row="5" Grid.Column="2" Content="Remove" IsEnabled="False"/>
         <ComboBox Name="TacticNameComboBox" ItemsSource="{Binding Path=Tactic.TacticNames}" SelectedItem="{Binding Path=Tactic.SelectedTacticName}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Visibility="Hidden"/>
         <TextBox Name="TacticNameTextBox" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Visibility="Hidden" Text="{Binding Path=Tactic.SelectedTacticName}"/>
-        <ComboBox Name="NumberPreviosMoveComboBox"  ItemsSource="{Binding Path=Tactic.NumberPreviosMoves}" SelectedItem="{Binding Path=Tactic.SelectedNumberPreviosMove}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Visibility="Hidden"/>
-        <TextBox Name="NumberPreviosMoveTextBox" Text="{Binding Path=Tactic.SelectedNumberPreviosMove}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Visibility="Hidden"/>
+        <ComboBox Name="NumberPreviosMoveComboBox"  ItemsSource="{Binding Path=Tactic.NumberStartMoves}" SelectedItem="{Binding Path=Tactic.SelectedNumberPreviosMove}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Visibility="Hidden"/>
+        <TextBox Name="NumberPreviosMoveTextBox" Text="{Binding Path=Tactic.SelectedNumberStartMove}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Visibility="Hidden"/>
         <TextBox Text="{Binding Path=Tactic.MoveCount}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"/>
     </Grid>
 </Window>
