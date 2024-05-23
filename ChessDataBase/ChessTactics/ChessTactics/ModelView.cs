@@ -42,11 +42,12 @@ namespace ChessTactics
 							row.Result.ToString(),
 							row.Country));
 					}
+					MessageBox.Show(result.Count.ToString());
 				}
 
 				Filter.Openings = result.Select(x => x.Opening).Distinct().Append("Any").ToList();
 				Filter.Countries = result.Select(x => x.Country).Distinct().Append("Any").ToList();
-				Filter.Tactics = result.Select(x => x.Tactics).Distinct().Append("Any").ToList();
+				Filter.Tactics = result.Select(x => x.Tactic).Distinct().Append("Any").ToList();
 				result = result.Where(IsSelected).ToList();
 
 				OnPropertyChanged(nameof(Filter));
@@ -71,7 +72,7 @@ namespace ChessTactics
 			var opening = Filter.SelectedOpening == "Any" || x.Opening == Filter.SelectedOpening;
 			var result = Filter.SelectedResult == "Any" || x.Result == Filter.SelectedResult;
 			var country = Filter.SelectedCountry == "Any" || x.Country == Filter.SelectedCountry;
-			var tactic = Filter.SelectedTactic == "Any" || x.Tactics == Filter.SelectedTactic;
+			var tactic = Filter.SelectedTactic == "Any" || x.Tactic == Filter.SelectedTactic;
 
 			return platform && dateFilter && timeControl && opening && result && country && tactic;
 		}

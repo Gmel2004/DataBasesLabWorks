@@ -68,14 +68,14 @@
                 </GridView>
             </ListView.View>
         </ListView>-->
-        <DataGrid ItemsSource="{Binding Tactics}" AutoGenerateColumns="False" IsReadOnly="True" SelectedItem="{Binding DataGridSelectedItem}">
+        <DataGrid ItemsSource="{Binding Tactics}" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Platform" Width="*" Binding="{Binding Platform}"/>
                 <DataGridTextColumn Header="Date" Width="*" Binding="{Binding Date}"/>
                 <DataGridTextColumn Header="Total move Count" Width="*" Binding="{Binding MoveCount}"/>
                 <DataGridTextColumn Header="Time" Width="*" Binding="{Binding Time}"/>
                 <DataGridTextColumn Header="Opening" Width="*" Binding="{Binding Opening}"/>
-                <DataGridTextColumn Header="Tactics" Width="*" Binding="{Binding Tactics}"/>
+                <DataGridTextColumn Header="Tactic" Width="*" Binding="{Binding Tactic}"/>
                 <DataGridTextColumn Header="Move Count" MinWidth="110" Width="*" Binding="{Binding SequenceLength}"/>
                 <DataGridHyperlinkColumn Header="Link" Width="*" Binding="{Binding Link}">
                     <DataGridHyperlinkColumn.ElementStyle>

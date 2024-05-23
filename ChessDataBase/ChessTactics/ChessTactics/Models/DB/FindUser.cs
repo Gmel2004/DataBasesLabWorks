@@ -9,7 +9,7 @@ namespace ChessTactics.Models.DB
         public string? Name { get; set; }
         public string? LastName { get; set; }
         public User.UserRank? Rank { get; set; }
-        public string Country { get; set; }
+        public string? Country { get; set; }
         public string? Domain {  get; set; }
     }
 }

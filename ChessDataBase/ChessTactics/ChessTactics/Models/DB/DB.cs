@@ -10,7 +10,7 @@ namespace ChessTactics
     {
         public static SecureString Login { private get; set; }
         public static SecureString Password { private get; set; }
-        public DbSet<Country> Countries { get; set; } = null!;
+        public DbSet<Country> Countries { get; set; }
         public DbSet<Game> Games { get; set; }
         public DbSet<Opening> Openings { get; set; }
         public DbSet<Platform> Platforms { get; set; }
