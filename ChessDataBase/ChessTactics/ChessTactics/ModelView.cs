@@ -42,7 +42,6 @@ namespace ChessTactics
 							row.Result.ToString(),
 							row.Country));
 					}
-					MessageBox.Show(result.Count.ToString());
 				}
 
 				Filter.Openings = result.Select(x => x.Opening).Distinct().Append("Any").ToList();
